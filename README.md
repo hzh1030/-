@@ -24,7 +24,16 @@
 
 ## 构建
 
-`site`为网页源文件；`worker/index.mjs`提供静态页面和原视频资源；`worker/video-files.json`记录原始视频大小。
+`site`为发布文件。已补齐React、TypeScript、Vite、Tailwind CSS 4.0.17与shadcn/ui目录配置；`components/ui/comet-card.tsx`为用户提供的3D倾斜卡片，本站在“关于我”使用动漫头像卡片。正文背景使用用户提供的动态视频，首屏保持原样。开发入口、安装步骤及组件路径见`docs/react-components.md`。
+
+```text
+npm ci
+npm run build
+```
+
+React静态产物保存在`site/assets/comet`。不加载Tailwind全局preflight，避免重置原页面；卡片支持键盘、触屏及减少动态。背景视频仅在滚动到正文后加载，关闭动效或离屏时暂停。背景视频不会暂停音乐。
+
+历史Sites构建：`worker/index.mjs`提供静态页面和原视频资源；`worker/video-files.json`记录原始视频大小。
 
 ```text
 node scripts/build-worker.mjs
@@ -37,8 +46,8 @@ node scripts/test-worker.mjs
 
 ## 云端迁移
 
-原Sites域名存在匿名Cloudflare拦截。最终托管改为独立云端，前端准备使用Vercel；根目录vercel.json指定site为输出目录。当前Vercel连接能够读取本人信息，但无权访问默认空间x-6ad5，团队接口返回403，正式部署仍待空间授权；不能将配置完成等同于已发布。
+原Sites域名存在匿名Cloudflare拦截。前端已改为Vercel Hobby独立云端托管；根目录vercel.json指定site为输出目录。正式固定地址为https://zh-personal-space-hzh1030.vercel.app/ ，个人电脑关机不影响前端与云端媒体服务。本人重新授权Vercel CLI后成功发布，公开项目不要求访客登录。认证缓存仅保存在D盘忽略目录，不进入源码或备份。
 
 原视频与56首MP3合计1,995,894,574字节，由production分支的GitHub Actions一次性读取指定媒体，校验每个SHA256，再上传到portfolio-media-v1 Release。63个文件已经全部完成云端上传；临时导入服务与通道已关闭，导入清单不再保留临时网址。实际云端MP3超过一分钟、缩小续播与下一首均通过触屏手机模拟测试，七段视频与三个音频抽样通过云端Range原字节检查。没有实际物理手机测试。原音视频不进入Git源码或Vercel前端部署包。
 
-GitHub仓库hzh1030/-的main分支保留可维护的前端源码，production分支保留迁移工作流。Vercel正式项目需要从最新前端源码创建，并使用固定生产域名、公开访问且无访客登录。未来更新沿用同一项目域名。Pages尚未启用。
+GitHub仓库hzh1030/-的main分支保留可维护的前端源码，production分支保留迁移工作流。正式Vercel项目为zh-personal-space-hzh1030，后续向同一项目发布会沿用固定网址。Pages尚未启用。
