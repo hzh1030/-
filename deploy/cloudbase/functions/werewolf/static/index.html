@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1b1418" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>美烂你狼人杀</title>
+    <link rel="manifest" href="/game/static/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/game/static/images/werewolf_bg.jpg" />
+    <link rel="stylesheet" href="/game/static/style.css?v=sequential-opening-v1" />
+    <link rel="stylesheet" href="/game/static/castle-lobby.css?v=invite-20260915" />
+  </head>
+  <body class="castle-theme">
+    <div id="bootSplash" class="boot-splash boot-cinematic" role="status" aria-label="美烂你狼人杀启动中">
+      <div class="boot-cinematic-landscape" aria-hidden="true"></div>
+      <div class="boot-cinematic-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="boot-cinematic-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="boot-splash-stars"></div>
+      <div class="boot-splash-sparks"></div>
+      <div class="boot-splash-horizon"></div>
+      <div class="boot-splash-fog boot-splash-fog-one"></div>
+      <div class="boot-splash-fog boot-splash-fog-two"></div>
+      <div class="boot-splash-bats" aria-hidden="true">
+        <i class="boot-bat boot-bat-one"></i>
+        <i class="boot-bat boot-bat-two"></i>
+        <i class="boot-bat boot-bat-three"></i>
+      </div>
+      <div class="boot-splash-cast" aria-hidden="true">
+        <img class="boot-cast-base" src="/game/static/images/boot-cast.png?v=004a8b537060ca11-direct-v2" data-src="/game/static/images/boot-cast.png?v=004a8b537060ca11-direct-v2" fetchpriority="high" alt="" />
+      </div>
+      <div class="boot-splash-copy">
+        <div class="boot-cinematic-seal" aria-hidden="true">✦</div>
+        <p class="boot-splash-kicker">THE CANDLELIT CHRONICLES</p>
+        <h1>美烂你 <span>· 狼人杀</span></h1>
+        <p class="boot-splash-subtitle">身份藏于暗处，真相生于言语</p>
+      </div>
+      <div class="boot-cinematic-footer" aria-hidden="true">
+        <div class="boot-cinematic-chapters"><span>壹 · 烛火初燃</span><span>贰 · 暗夜来客</span><span>叁 · 请诸位落座</span></div>
+        <div class="boot-cinematic-progress"><i></i></div>
+        <small>一桌烛光　两种阵营　无数种真相</small>
+      </div>
+      <button id="skipBootBtn" class="boot-splash-skip" type="button">跳过片头</button>
+    </div>
+    <main class="app-shell">
+      <aside id="gameFeedback" class="game-feedback hidden" aria-label="游戏提示">
+        <p id="gameFeedbackText" role="alert" aria-live="assertive" aria-atomic="true"></p>
+        <button id="dismissGameFeedback" type="button" aria-label="关闭游戏提示">×</button>
+      </aside>
+      <header class="castle-toolbar">
+        <div class="castle-brand"><span class="castle-brand-mark" aria-hidden="true">♜</span><span>美烂你 · 狼人杀</span><small>谎言之下 · 也是人心</small></div>
+        <div class="castle-tools">
+          <button id="enableVoiceBtn" type="button">♩ 启用语音</button>
+          <button id="manualMicBtn" type="button">手动开麦</button>
+          <button id="leaveRoomBtn" class="danger hidden" type="button">退出房间</button>
+        </div>
+      <div id="networkHealth" class="network-health is-checking" role="status" aria-live="polite" aria-atomic="true">
+        <span class="network-health-dot" aria-hidden="true"></span>
+        <span id="networkHealthLabel">网络检测中</span>
+        <strong id="networkLatencyValue" class="network-health-latency">-- ms</strong>
+        <span id="networkSignalBars" class="network-signal" aria-label="网络信号">
+          <i></i><i></i><i></i><i></i>
+        </span>
+        <svg id="networkLatencyTrend" class="network-latency-trend" viewBox="0 0 56 20" aria-hidden="true" focusable="false"><path d="" /></svg>
+        <span id="voiceNetworkValue" class="network-voice">语音未启用</span>
+      </div>
+      </header>
+      <div id="lobbyView" class="castle-lobby">
+        <section class="castle-stage" aria-label="游戏大厅">
+          <section class="castle-scene" aria-label="剧本与房间玩家">
+            <div class="castle-intro-copy">
+              <p class="castle-eyebrow">BETWEEN TRUTH AND LIES</p>
+              <h1>今夜，你是谁？</h1>
+              <p>在谎言与推理之间<br />看见更真实的人心</p>
+            </div>
+            <div id="castleLobbyPlayers" class="hidden"></div>
+            <div class="castle-deck-gallery" aria-label="推荐剧本">
+              <button class="castle-deck is-selected" type="button" data-castle-preset="standard" aria-pressed="true">
+                <span class="castle-deck-art" aria-hidden="true"></span><span class="castle-deck-copy"><strong>12人标准局</strong><span>4狼 · 4民 · 4神</span><small>经典配置，完整的推理体验</small></span>
+              </button>
+              <button class="castle-deck" type="button" data-castle-preset="nine_hunter" aria-pressed="false">
+                <span class="castle-deck-art" aria-hidden="true"></span><span class="castle-deck-copy"><strong>9人猎人局</strong><span>3狼 · 3民 · 3神</span><small>节奏紧凑，更直接的交锋</small></span>
+              </button>
+              <button class="castle-deck" type="button" data-castle-preset="ten_guard" aria-pressed="false">
+                <span class="castle-deck-art" aria-hidden="true"></span><span class="castle-deck-copy"><strong>10人守卫局</strong><span>3狼 · 4民 · 3神</span><small>守护与试探，暗夜的博弈</small></span>
+              </button>
+            </div>
+          </section>
+          <article class="castle-console" aria-label="创建或加入房间">
+            <i class="castle-corner corner-tl" aria-hidden="true"></i><i class="castle-corner corner-tr" aria-hidden="true"></i><i class="castle-corner corner-bl" aria-hidden="true"></i><i class="castle-corner corner-br" aria-hidden="true"></i>
+            <div id="castleSetupForm" class="castle-form">
+              <p id="incomingRoomInvite" class="castle-invite-message hidden" role="status"></p>
+              <label class="castle-name-field"><span>昵称</span><input id="nameInput" maxlength="20" placeholder="输入你的名字" autocomplete="nickname" /></label>
+              <div class="castle-preset-area">
+                <div class="castle-field-heading"><label for="presetSelect">选择剧本</label><span id="tabletopScriptCount">12 人局</span></div>
+                <div class="castle-script-preview">
+                  <div><strong id="tabletopScriptLabel">12 人标准局</strong><p id="tabletopScriptComposition">4 狼 · 4 民 · 4 神</p></div>
+                  <button id="presetRulesBtn" class="castle-rule-button" type="button" aria-label="查看当前板子规则" aria-haspopup="dialog" aria-controls="presetRulesOverlay"><b aria-hidden="true">!</b><span>查看规则</span></button>
+                </div>
+                <select id="presetSelect" aria-label="选择完整剧本">
+                  <option value="nine_hunter">9 人猎人局（3 狼 3 民 3 神）</option>
+                  <option value="nine_knight">9 人骑士局（3 狼 3 民 3 神）</option>
+                  <option value="ten_guard">10 人守卫局（3 狼 4 民 3 神）</option>
+                  <option value="ten_white_wolf_king">10 人白狼王局（3 狼 4 民 3 神）</option>
+                  <option value="eleven_guard">11 人守卫局（4 狼 4 民 3 神）</option>
+                  <option value="eleven_knight">11 人骑士局（4 狼 4 民 3 神）</option>
+                  <option value="standard" selected>12 人标准局（4 狼 4 民 4 神）</option>
+                  <option value="white_wolf_king">白狼王板子</option>
+                  <option value="knight">骑士板子</option>
+                  <option value="white_wolf_king_knight">白狼王 + 骑士</option>
+                
+                </select>
+              </div>
+              <div><p class="castle-field-label">玩家人数</p><div class="castle-player-counts" role="group" aria-label="选择人数">
+                <button type="button" data-castle-count="9" aria-pressed="false">9人</button><button type="button" data-castle-count="10" aria-pressed="false">10人</button><button type="button" data-castle-count="11" aria-pressed="false">11人</button><button type="button" data-castle-count="12" aria-pressed="true">12人</button>
+              </div></div>
+              <div class="castle-switches">
+                <label class="castle-switch"><span>人机模式</span><input id="aiModeInput" type="checkbox" role="switch" /><small>单人也可开始，电脑补位</small></label>
+                <label class="castle-switch"><span>允许自爆</span><input id="selfDestructInput" type="checkbox" role="switch" checked /><small>按当前剧本规则执行</small></label>
+              </div>
+              <button id="createRoomBtn" class="primary castle-create" type="button"><span aria-hidden="true">✦</span> 创建房间</button>
+              <div class="castle-join-block">
+                <label for="roomCodeInput">加入房间</label>
+                <div class="castle-join-row"><input id="roomCodeInput" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" placeholder="输入6位房间号" autocomplete="off" /><button id="joinRoomBtn" type="button">加入房间</button></div>
+              </div>
+            </div>
+            <div id="castleJoinedControls" class="hidden"><div class="castle-room-heading"><p class="castle-eyebrow">YOUR ROUND TABLE</p><h2>请诸位落座</h2><p id="castleRoomCode"></p><p id="castleRoomCount"></p></div></div>
+            <div class="castle-console-footer"><span id="castleRoomStatus" role="status">尚未加入房间</span><span id="castleFooterShare"></span></div>
+          </article>
+        </section>
+        <details id="castleRoomDetails" class="castle-details">
+          <summary><span>房间信息与系统消息</span><span id="castleLastNotice" role="status"></span><span aria-hidden="true">⌄</span></summary>
+          <article class="panel tabletop-status-panel">
+            <h2>当前状态</h2>
+            <dl class="info-list">
+              <div>
+                <dt>连接状态</dt>
+                <dd id="connectionStatus">连接中...</dd>
+              </div>
+              <div>
+                <dt>房间号</dt>
+                <dd id="roomCodeValue">未加入</dd>
+              </div>
+              <div>
+                <dt>阶段</dt>
+                <dd id="phaseValue">准备中</dd>
+              </div>
+              <div>
+                <dt>轮次</dt>
+                <dd id="roundValue">0</dd>
+              </div>
+              <div>
+                <dt>身份</dt>
+                <dd id="roleValue">未分配</dd>
+              </div>
+              <div>
+                <dt>麦克风</dt>
+                <dd id="micPolicyValue">未启用</dd>
+              </div>
+              <div>
+                <dt>发言计时</dt>
+                <dd id="speechTimerValue">未开始</dd>
+              </div>
+              <div>
+                <dt>胜负</dt>
+                <dd id="winnerValue">进行中</dd>
+              </div>
+            </dl>
+            <div class="tabletop-qr-dock">
+              <div>
+                <span>同局加入</span>
+                <strong>邀请好友同桌</strong>
+                <p>手机流量或不同 Wi-Fi 都能加入同一个房间</p>
+                <button id="showRoomInviteBtn" type="button">二维码与邀请链接</button>
+              </div>
+              <div id="tabletopQrTicket" class="tabletop-qr-ticket" aria-live="polite">
+                <span class="tabletop-qr-placeholder">建房后生成<br />手机入场码</span>
+                <img id="roomQrImage" class="qr-image" alt="房间二维码" />
+              </div>
+            </div>
+          </article>
+        <section class="grid lobby-command-grid">
+          <article class="panel tabletop-access-panel">
+            <h2>房间信息</h2>
+            <div class="stack">
+              <div class="info-card">
+                <strong>在线加入链接</strong>
+                <p id="joinUrlValue" class="mono wrap-text">创建房间后显示</p>
+              </div>
+              <div class="info-card">
+                <strong>房间板子</strong>
+                <p id="configSummary">尚未建房</p>
+              </div>
+              <div class="info-card mobile-play-card">
+                <strong>手机一起玩</strong>
+                <p id="mobilePlayHint" class="hint">创建房间后，将邀请链接发送给朋友即可加入。</p>
+                <a id="mobileJoinLink" class="mobile-join-link hidden" target="_blank" rel="noopener noreferrer"></a>
+                <div class="row wrap">
+                  <button id="shareRoomBtn" class="primary" disabled>分享房间</button>
+                  <button id="installGameBtn" class="ghost">安装到手机</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel tabletop-host-panel">
+            <h2>房主控制</h2>
+            <div id="hostControls" class="stack hidden">
+              <div class="row wrap">
+                <button id="startGameBtn" class="primary">开始游戏</button>
+                <button id="forceNextSpeechBtn">下一位发言</button>
+                <button id="syncStateBtn">同步房间状态</button>
+              </div>
+              <div class="row wrap">
+                <div class="inline-field preset-field">
+                  <div class="field-label-row">
+                    <label for="hostPresetSelect">板子</label>
+                    <button id="hostPresetRulesBtn" class="rules-icon-button" type="button" aria-label="预览板子规则" aria-haspopup="dialog" aria-controls="presetRulesOverlay" title="预览板子规则">!</button>
+                  </div>
+                  <select id="hostPresetSelect">
+                    <option value="nine_hunter">9 人猎人局（3 狼 3 民 3 神）</option>
+                    <option value="nine_knight">9 人骑士局（3 狼 3 民 3 神）</option>
+                    <option value="ten_guard">10 人守卫局（3 狼 4 民 3 神）</option>
+                    <option value="ten_white_wolf_king">10 人白狼王局（3 狼 4 民 3 神）</option>
+                    <option value="eleven_guard">11 人守卫局（4 狼 4 民 3 神）</option>
+                    <option value="eleven_knight">11 人骑士局（4 狼 4 民 3 神）</option>
+                    <option value="standard">标准 4 狼 4 民 4 神</option>
+                    <option value="white_wolf_king">白狼王板子</option>
+                    <option value="knight">骑士板子</option>
+                    <option value="white_wolf_king_knight">白狼王 + 骑士</option>
+                  </select>
+                </div>
+                <label class="checkbox-row inline-checkbox">
+                  <input id="hostSelfDestructInput" type="checkbox" checked />
+                  <span>开启自爆</span>
+                </label>
+                <label class="checkbox-row inline-checkbox">
+                  <input id="hostAiModeInput" type="checkbox" />
+                  <span>人机模式</span>
+                </label>
+                <button id="saveConfigBtn">保存配置</button>
+              </div>
+              <p class="hint">房主可以调整板子、人机模式、推进发言、禁言或拉黑违规语音玩家。</p>
+            </div>
+            <p id="hostHint" class="hint">加入房间后，如果你是房主，这里会显示控场能力。</p>
+          </article>
+        </section>
+
+        <section class="grid lobby-secondary-grid">
+          <article class="panel tabletop-action-panel">
+            <h2>你的操作</h2>
+            <div id="actionPanel" class="action-panel"></div>
+          </article>
+
+          <article class="panel tabletop-discovery-panel">
+            <h2>在线公开房间</h2>
+            <div id="discoveryList" class="players-list"></div>
+          </article>
+        </section>
+
+        <section class="grid lobby-secondary-grid lobby-secondary-bottom-grid">
+          <article class="panel tabletop-players-panel">
+            <h2>房间玩家</h2>
+            <div id="playersList" class="players-list"></div>
+          </article>
+
+          <article class="panel tabletop-notices-panel">
+            <h2>系统消息</h2>
+            <div id="noticeLog" class="notice-log"></div>
+          </article>
+        </section>
+        </details>
+      </div>
+
+      <section id="battleView" class="battle-view hidden">
+        <article class="panel battle-hero">
+          <div>
+            <p class="eyebrow">MATCH VIEW</p>
+            <h2>游戏对局主页面</h2>
+            <p id="battleStageSummary" class="subtitle">等待房主开始游戏。</p>
+          </div>
+          <div class="battle-summary">
+            <div class="battle-summary-item">
+              <span>房间号</span>
+              <strong id="battleRoomCodeValue">未加入</strong>
+            </div>
+            <div class="battle-summary-item">
+              <span>阶段</span>
+              <strong id="battlePhaseValue">准备阶段</strong>
+            </div>
+            <div class="battle-summary-item">
+              <span>轮次</span>
+              <strong id="battleRoundValue">0</strong>
+            </div>
+            <div class="battle-summary-item">
+              <span>身份</span>
+              <strong id="battleRoleValue">未分配</strong>
+            </div>
+            <div class="battle-summary-item">
+              <span>发言计时</span>
+              <strong id="battleSpeechTimerValue">未开始</strong>
+            </div>
+            <div class="battle-summary-item">
+              <span>对局操作</span>
+              <button id="battlePresetRulesBtn" class="battle-rules-button" type="button" aria-haspopup="dialog" aria-controls="presetRulesOverlay">
+                <span id="battlePresetLabel">规则说明</span><b aria-hidden="true">!</b>
+              </button>
+              <button id="battleLeaveRoomBtn" class="danger">退出房间</button>
+            </div>
+          </div>
+          <div id="battleHostControls" class="battle-host-controls hidden">
+            <strong>房主控场</strong>
+            <button id="battleForceNextSpeechBtn" class="small">下一位发言</button>
+            <button id="battleSyncStateBtn" class="small">同步房间状态</button>
+            <span class="hint">可在下方玩家卡片上禁言或拉黑语音。</span>
+          </div>
+        </article>
+
+        <section class="battle-layout">
+          <aside class="panel battle-side">
+            <div class="battle-side-header">
+              <div>
+                <h2>左侧玩家区域</h2>
+                <p id="battleLeftHint" class="hint">优先展示已识别的狼人阵营，其余玩家会自动补齐排布。</p>
+              </div>
+              <span id="battleLeftCount" class="badge host">0 人</span>
+            </div>
+            <div id="battleLeftPlayers" class="battle-player-grid"></div>
+          </aside>
+
+          <section class="battle-center">
+            <article class="panel battle-table-panel">
+              <div class="battle-table-heading">
+                <div>
+                  <p class="eyebrow">THE ROUND TABLE</p>
+                  <h2 id="battleTablePhase">等待开局</h2>
+                </div>
+                <span id="battleTableCount" class="badge spotlight">0 / 0</span>
+              </div>
+              <div class="battle-table">
+                <div class="battle-table-rings" aria-hidden="true"></div>
+                <div id="battleTablePlayers" class="battle-table-players"></div>
+                <div class="battle-table-core">
+                  <span class="battle-table-moon" aria-hidden="true">✦</span>
+                  <small id="battleTablePrompt">等待所有玩家落座</small>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2>当前行动</h2>
+              <div id="battleActionPanel" class="action-panel"></div>
+            </article>
+
+            <article class="panel">
+              <h2>公开投票面板</h2>
+              <div id="votePanelSummary" class="vote-panel-summary">当前还未进入公投阶段。</div>
+              <div id="votePanelRanking" class="vote-ranking"></div>
+              <div id="votePanelRecords" class="vote-records"></div>
+            </article>
+
+            <article class="panel">
+              <h2>对局播报</h2>
+              <div id="battleNoticeLog" class="notice-log"></div>
+            </article>
+          </section>
+
+          <aside class="panel battle-side">
+            <div class="battle-side-header">
+              <div>
+                <h2>右侧玩家区域</h2>
+                <p id="battleRightHint" class="hint">优先展示已识别的好人阵营，未知信息会保持安全排布。</p>
+              </div>
+              <span id="battleRightCount" class="badge spotlight">0 人</span>
+            </div>
+            <div id="battleRightPlayers" class="battle-player-grid"></div>
+          </aside>
+        </section>
+      </section>
+
+      <div id="phaseTransitionOverlay" class="phase-transition-overlay hidden" aria-live="polite" aria-atomic="true">
+        <div class="phase-transition-aura"></div>
+        <div class="phase-transition-seal" aria-hidden="true"><span>✦</span></div>
+        <div class="phase-transition-content">
+          <p id="phaseTransitionKicker" class="phase-transition-kicker"></p>
+          <strong id="phaseTransitionTitle" class="phase-transition-title"></strong>
+          <p id="phaseTransitionSubtitle" class="phase-transition-subtitle"></p>
+        </div>
+      </div>
+
+      <section id="presetRulesOverlay" class="preset-rules-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="presetRulesTitle" aria-hidden="true">
+        <article id="presetRulesPanel" class="preset-rules-panel" tabindex="-1">
+          <header class="preset-rules-header">
+            <div>
+              <p id="presetRulesKicker" class="eyebrow">CURRENT SCRIPT</p>
+              <h2 id="presetRulesTitle">当前板子规则</h2>
+            </div>
+            <button id="presetRulesClose" class="preset-rules-close" type="button" aria-label="关闭规则说明">×</button>
+          </header>
+          <p id="presetRulesMeta" class="preset-rules-meta">正在载入当前板子规则…</p>
+          <div id="presetRulesSettings" class="preset-rules-settings"></div>
+          <section class="preset-rules-section">
+            <h3>角色与能力</h3>
+            <div id="presetRulesRoles" class="preset-rules-role-grid"></div>
+          </section>
+          <section class="preset-rules-section">
+            <h3>关键流程</h3>
+            <ol id="presetRulesFlow" class="preset-rules-list"></ol>
+          </section>
+          <section class="preset-rules-section preset-rules-section-split">
+            <div>
+              <h3>胜利条件</h3>
+              <ul id="presetRulesVictory" class="preset-rules-list"></ul>
+            </div>
+            <div>
+              <h3>身份信息</h3>
+              <ul id="presetRulesInformation" class="preset-rules-list"></ul>
+            </div>
+          </section>
+        </article>
+      </section>
+
+      <div id="remoteAudioBucket" aria-hidden="true"></div>
+    </main>
+
+    <dialog id="roomShareDialog" class="room-share-dialog" aria-labelledby="roomShareTitle">
+      <h2 id="roomShareTitle">邀请好友同桌</h2>
+      <p class="hint">当前为云端在线房间：朋友使用手机流量或不同 Wi-Fi，都可以打开邀请链接加入。无需房主电脑保持开机。</p>
+      <img id="shareQrImage" alt="扫码加入当前房间" width="180" height="180" />
+      <label for="shareUrlInput">房间链接（可长按选择并复制）</label>
+      <input id="shareUrlInput" type="text" readonly />
+      <p id="shareCopyStatus" class="hint" role="status"></p>
+      <div class="row wrap"><button id="copyShareUrlBtn" class="primary" type="button">复制链接</button><button id="systemShareRoomBtn" type="button" hidden>系统分享</button><a id="openShareUrlLink" target="_blank" rel="noopener noreferrer">打开邀请页面 ↗</a><button id="closeShareDialogBtn" type="button">关闭</button></div>
+    </dialog>
+    <script src="/game/static/boot-scene.js?v=sequential-v1"></script>
+    <script src="/game/static/network-quality.js?v=realtime-v2-integer"></script>
+    <script type="module" src="/game/static/app.js?v=realtime-network-v3-steady"></script>
+  </body>
+  </html>

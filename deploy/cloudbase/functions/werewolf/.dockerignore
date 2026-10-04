@@ -1,0 +1,6 @@
+__pycache__
+*.pyc
+.env*
+network-settings.json
+scf_bootstrap
+deps

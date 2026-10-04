@@ -1,0 +1,167 @@
+/* Selected proposal 02. Lobby-only rules keep the match and 9-second intro intact. */
+body.castle-theme:not(.battle-mode) {
+  --text: #edf0f4; --muted: #b4bfce; --border: #536079;
+  color: var(--text);
+  background: linear-gradient(90deg, #050c1926, #050b1720 58%, #03081166), url('/game/static/images/castle-lobby-v1.png') center / cover fixed;
+}
+body.castle-theme:not(.battle-mode)::before, body.castle-theme:not(.battle-mode)::after { display: none; }
+body.castle-theme:not(.battle-mode) .app-shell { width: 100%; max-width: none; margin: 0; padding: 0 28px 14px; }
+.castle-toolbar { display: flex; align-items: center; gap: 18px; min-width: 0; padding: 12px 0; }
+body.castle-theme:not(.battle-mode) .castle-toolbar { min-height: 66px; margin: 0 -28px; padding: 12px 28px; border-bottom: 1px solid #9badc12e; background: #080e1bae; }
+.castle-brand { display: flex; gap: 12px; align-items: center; white-space: nowrap; font: 24px 'SimSun', 'Songti SC', serif; letter-spacing: .07em; color: #efe6d4; }
+.castle-brand-mark { color: #a8b9d3; font-size: 29px; }
+.castle-brand small { font: 13px 'SimSun', serif; letter-spacing: .17em; padding-left: 18px; margin-left: 6px; border-left: 1px solid #8796aa66; color: #b2c0d7; }
+.castle-tools { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.castle-toolbar .castle-tools button { min-height: 38px; padding: 7px 15px; border: 1px solid #7388a5; border-radius: 24px; background: linear-gradient(#354b6999,#122138cc); color: #e3edf9; box-shadow: inset 0 1px #d5e1f330; font-size: 13px; white-space: nowrap; }
+.castle-tools #manualMicBtn { background: transparent; border-color: #7388a54d; }
+body.castle-theme .castle-toolbar #networkHealth { margin: 0; min-height: 34px; width: auto; padding: 0; gap: 7px; border: 0; background: none; box-shadow: none; font-size: 12px; flex-wrap: wrap; }
+.castle-toolbar #voiceNetworkValue { display: none; }
+.castle-stage { display: grid; grid-template-columns: minmax(0,1.58fr) minmax(370px,1fr); gap: 30px; min-height: calc(100svh - 114px); padding: 24px 0 14px; }
+.castle-scene { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.castle-intro-copy { padding: clamp(28px,5vh,68px) 0 0 clamp(18px,3.5vw,70px); text-shadow: 0 2px 20px #000b; }
+.castle-eyebrow { font-size: 10px; letter-spacing: .24em; color: #adbed7; margin-bottom: 12px; }
+.castle-intro-copy h1 { font: 500 clamp(34px,4vw,68px)/1.3 'SimSun','Songti SC',serif; letter-spacing: .13em; color: #f7ecda; margin-bottom: 16px; }
+.castle-intro-copy > p:last-child { font: 16px/1.9 'SimSun','Songti SC',serif; letter-spacing: .21em; color: #c8d3e6; }
+.castle-deck-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 13px; }
+.castle-lobby button.castle-deck { position: relative; isolation: isolate; overflow: hidden; min-width: 0; min-height: clamp(190px,22vh,260px); padding: 0; border: 1px solid #8697b26e; border-radius: 8px; text-align: left; background: #0a1423; box-shadow: 0 8px 20px #0005; }
+.castle-deck-art { position: absolute; z-index: -2; inset: 0; background: url('/game/static/images/castle-lobby-v1.png') 48% 45% / 220% auto; transition: transform .3s ease; }
+.castle-deck:nth-child(2) .castle-deck-art { background-position: 4% 76%; background-size: 280% auto; }
+.castle-deck:nth-child(3) .castle-deck-art { background-position: 58% 80%; background-size: 270% auto; }
+.castle-deck::after { content: ''; position: absolute; z-index: -1; inset: 0; background: linear-gradient(transparent 10%,#06101e88 38%,#050c18 100%); }
+.castle-deck-copy { display: flex; flex-direction: column; gap: 9px; padding: 20px 16px; padding-top: 96px; }
+.castle-deck-copy strong { font: 23px/1.3 'SimSun','Songti SC',serif; color: #f0e7d6; }
+.castle-deck-copy > span { font-size: 14px; color: #c2cee0; }
+.castle-deck-copy small { color: #b9c5d8; font-size: 12px; line-height: 1.5; }
+.castle-lobby button.castle-deck.is-selected { border-color: #e2c893; box-shadow: 0 0 0 1px #ddc696, 0 0 20px #edd6ac22, inset 0 0 12px #ead09b22; }
+.castle-deck:hover .castle-deck-art { transform: scale(1.04); }
+.castle-lobby button.castle-deck { display:block; }
+.castle-deck-copy { align-items:flex-start; }
+.castle-console { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(24px,2.4vw,42px); border: 1px solid #b7b4a365; border-radius: 9px; background: linear-gradient(145deg,#0d1624ef,#060c16ed 65%,#101c2deb); box-shadow: inset 0 0 0 5px #07101ab3, inset 0 0 0 6px #acb6c123, 0 15px 50px #0006; }
+.castle-corner { position: absolute; width: 24px; height: 24px; pointer-events: none; border: solid #cfbe9d; border-width: 1px 0 0 1px; border-radius: 7px 0 0; opacity: .7; }
+.castle-corner::after { content: '◇'; position: absolute; left: -5px; top: -9px; font-size: 15px; }
+.corner-tl { top: 10px; left: 10px; }.corner-tr { top: 10px; right: 10px; transform: rotate(90deg); }.corner-bl { bottom: 10px; left: 10px; transform: rotate(-90deg); }.corner-br { bottom: 10px; right: 10px; transform: rotate(180deg); }
+.castle-form { display: grid; gap: clamp(16px,2.2vh,25px); }
+.castle-name-field { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 16px; align-items: center; }
+.castle-name-field > span { margin: 0; color: #e3e6ed; }
+.castle-lobby input, .castle-lobby select { min-width: 0; min-height: 46px; border: 1px solid #8594ad99; border-radius: 5px; padding: 11px 13px; color: #eaf0fa; background: #0a101ad9; box-shadow: inset 0 1px 6px #0005; font-size: 15px; }
+.castle-lobby input::placeholder { color: #929dad; }
+.castle-lobby select option { color: #eaf0fa; background: #111b2d; }
+.castle-lobby button:focus-visible, .castle-lobby input:focus-visible, .castle-lobby select:focus-visible, .castle-toolbar button:focus-visible { outline: 2px solid #efdba8; outline-offset: 3px; }
+.castle-field-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; color: #dee5f0; }
+.castle-field-heading > span { font-size: 11px; color: #aebad0; letter-spacing: .06em; }
+.castle-script-preview { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 20px 18px; min-height: 102px; border: 1px solid #7e8ba266; border-radius: 5px 5px 0 0; background: linear-gradient(90deg,#101926ed,#101926bb),url('/game/static/images/castle-lobby-v1.png') 50% 45% / cover; }
+.castle-script-preview > div { min-width: 0; }
+.castle-script-preview strong { display: block; font: 28px/1.3 'SimSun','Songti SC',serif; color: #f2e6cc; overflow-wrap: anywhere; }
+.castle-script-preview p { color: #b7c7df; margin-top: 10px; font-size: 15px; }
+.castle-lobby button.castle-rule-button { display: grid; place-items: center; gap: 7px; flex-shrink: 0; min-width: 66px; padding: 0; color: #c4d4ee; background: none; border: 0; box-shadow: none; }
+.castle-rule-button b { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #a7bce3; border-radius: 50%; background: radial-gradient(at top,#536b94,#16243c); font: 28px/1 Georgia,serif; }
+.castle-rule-button span { font-size: 11px; }
+.castle-lobby #presetSelect { min-height: 36px; border-radius: 0 0 5px 5px; border-color: #7e8ba266; border-top: 0; font-size: 12px; padding: 8px 10px; color: #c1cada; }
+.castle-field-label { margin-bottom: 10px; font-size: 14px; }
+.castle-player-counts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
+.castle-lobby .castle-player-counts button { min-height: 42px; padding: 6px; border: 1px solid #8392aa99; border-radius: 24px; color: #c4d0e3; font: 18px 'SimSun',serif; background: linear-gradient(#25304499,#111b2c66); box-shadow: none; }
+.castle-lobby .castle-player-counts button[aria-pressed='true'] { color: #352817; border-color: #eed9a4; background: linear-gradient(135deg,#e9d6a8,#b59a62); box-shadow: 0 0 15px #dec59535,inset 0 0 0 2px #f7e7c077; }
+.castle-switches { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.castle-switch { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 8px; row-gap: 9px; cursor: pointer; }
+.castle-switch + .castle-switch { border-left: 1px solid #68789055; padding-left: 18px; }
+.castle-switch > span { color: #dce4f1; margin: 0; font-size: 14px; }
+.castle-switch small { grid-column: 1/-1; color: #9dabc1; font-size: 11px; line-height: 1.5; }
+.castle-lobby .castle-switch input { appearance: none; width: 42px; min-height: 23px; height: 23px; padding: 2px; margin: 0; border: 1px solid #8b9bb6; border-radius: 20px; background: #4c5871; box-shadow: inset 0 1px 4px #0004; cursor: pointer; }
+.castle-switch input::before { content:''; display:block; width:17px; height:17px; border-radius:50%; background:#dce7f5; box-shadow:0 1px 3px #0005; transition:transform .2s; }
+.castle-lobby .castle-switch input:checked { background:#b79b64; border-color:#d6bd8b; }
+.castle-switch input:checked::before { transform:translateX(18px); background:#fff3d9; }
+.castle-lobby button.primary { background: linear-gradient(115deg,#cfb780,#f0dfb5 48%,#b49963); border: 1px solid #e7d6a9; color: #302817; box-shadow: inset 0 0 0 3px #4f411429, 0 0 24px #f2d69717; }
+.castle-lobby button.castle-create { width:100%; min-height:58px; border-radius:5px; font:600 28px 'SimSun',serif; letter-spacing:.09em; }
+.castle-create > span { margin-right:12px; }
+.castle-join-block { border-top:1px solid #77849855; padding-top:18px; }
+.castle-join-block > label { display:block; font-size:14px; margin-bottom:12px; }
+.castle-join-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; }
+.castle-lobby .castle-join-row button { border:1px solid #8a9fbe; border-radius:5px; min-width:108px; background:linear-gradient(120deg,#35577d,#142843); color:#edf4ff; box-shadow:inset 0 0 0 3px #cedaf31a; white-space:nowrap; }
+.castle-console-footer { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:22px; padding-top:16px; border-top:1px solid #78869c44; color:#b3c0d5; font-size:12px; }
+.castle-console-footer > span { min-width:0; }
+.castle-lobby #castleFooterShare button { min-height:32px; font-size:12px; padding:6px 8px; border:0; border-radius:0; background:none; box-shadow:none; color:#c3d1e8; }
+.castle-console-footer #castleRoomStatus::before { content:'♟'; margin-right:7px; }
+.castle-details { font-size:12px; color:#bac6d9; }
+.castle-details > summary { display:flex; align-items:center; gap:12px; min-height:34px; padding:6px 4px; cursor:pointer; list-style:none; }
+.castle-details > summary::-webkit-details-marker { display:none; }
+.castle-details > summary > span:first-child { white-space:nowrap; }
+#castleLastNotice { margin-left:auto; max-width:65%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#d2c3a7; }
+.castle-details[open] { background:#07111deb; border:1px solid #8392ab55; border-radius:8px; padding:16px; }
+.castle-details > .panel { margin:16px 0; }
+.castle-lobby .panel { border-color:#77879e66; background:#0b1421e8; border-radius:6px; box-shadow:none; }
+.castle-lobby .grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); }
+.castle-lobby .panel h2 { color:#e6dcc7; }
+.castle-lobby .panel h2::before { background:linear-gradient(#d8c7a0,#7b8da7); }
+.castle-lobby .tabletop-host-panel { border:0; padding:0; background:none; box-shadow:none; backdrop-filter:none; }
+.castle-lobby .tabletop-host-panel > h2 { margin-top:24px; }
+.castle-lobby #hostControls > .row:first-child { display:grid; grid-template-columns:1fr 1fr; }
+.castle-lobby #startGameBtn { grid-column:1/-1; min-height:55px; font-size:22px; }
+.castle-lobby #hostControls > .row:nth-child(2) { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; }
+.castle-lobby #hostControls .inline-field { grid-column:1/-1; min-width:0; }
+.castle-lobby #hostControls #saveConfigBtn { grid-column:1/-1; }
+.castle-lobby #hostControls .inline-checkbox { width:auto; min-width:0; margin:0; }
+.castle-lobby #hostPresetSelect { min-width:0; min-height:46px; height:auto; }
+.castle-lobby #hostControls button:not(.primary) { border:1px solid #657a98; border-radius:5px; background:#1d304a; color:#d6e3f5; }
+.castle-room-heading h2 { font:32px 'SimSun',serif; margin:0 0 16px; }
+#castleRoomCode { font:32px Georgia,serif; letter-spacing:.22em; color:#e9d19d; margin-bottom:8px; }
+#castleRoomCount { color:#bac9dd; font-size:14px; }
+.castle-lobby #castleLobbyPlayers .panel { padding:20px; background:#071321c9; }
+.castle-lobby #castleLobbyPlayers .players-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; max-height:410px; overflow:auto; }
+.castle-lobby #castleLobbyPlayers .player-card { padding:12px; min-height:100px; background:#15243bd9; border-color:#69809c66; font-size:12px; overflow-wrap:anywhere; }
+.castle-lobby #castleLobbyPlayers .player-card .row { flex-wrap:wrap; }
+.castle-lobby #castleLobbyPlayers .player-card button { font-size:11px; padding:6px; }
+.castle-lobby.is-in-room .castle-intro-copy { display:none; }
+.castle-lobby.is-in-room .castle-scene { justify-content:flex-end; }
+.castle-lobby.is-in-room .castle-deck-gallery button { opacity:.72; }
+.castle-lobby button:disabled { cursor:not-allowed; }
+.castle-lobby.hidden, .castle-lobby .hidden, .castle-toolbar .hidden { display:none !important; }
+body.castle-theme .hidden { display:none !important; }
+.castle-console { justify-content:flex-start; }
+.castle-form { flex:1; align-content:space-between; }
+.castle-lobby .tabletop-qr-ticket img { display:none; }
+.castle-lobby .tabletop-qr-ticket.is-ready img { display:block; }
+.castle-lobby .tabletop-qr-ticket.is-ready .tabletop-qr-placeholder { display:none; }
+.castle-lobby #castleJoinedControls .tabletop-qr-dock { display:grid; grid-template-columns:minmax(0,1fr) 152px; align-items:center; gap:14px; margin:18px 0; padding:14px; border:1px solid #778ba366; border-radius:8px; background:#101e30; }
+.castle-lobby #castleJoinedControls .tabletop-qr-dock p { margin:8px 0; color:#b9c8db; font-size:12px; line-height:1.5; }
+.castle-lobby #castleJoinedControls .tabletop-qr-dock strong { display:block; margin-top:5px; color:#efe2c7; }
+.castle-lobby #castleJoinedControls .tabletop-qr-ticket { width:152px; height:152px; min-height:152px; padding:0; border:0; border-radius:6px; background:#fff; overflow:hidden; }
+.castle-lobby #castleJoinedControls .qr-image { width:152px; height:152px; max-width:none; margin:0; border:0; padding:0; background:white; }
+.castle-lobby #showRoomInviteBtn { min-height:42px; white-space:normal; padding:8px; font-size:13px; }
+.castle-invite-message { padding:12px; border:1px solid #b99a62; border-radius:6px; color:#f4dba8; font-size:14px; line-height:1.6; }
+#roomShareDialog #shareQrImage { background:white; width:200px; height:200px; }
+#openShareUrlLink { color:#e9d19d; padding:10px 0; }
+@media (max-width:420px) { .castle-lobby #castleJoinedControls .tabletop-qr-dock { grid-template-columns:1fr; text-align:center; justify-items:center; } }
+body.castle-theme.battle-mode .castle-brand { font-size:20px; }
+body.castle-theme.battle-mode .castle-brand small { display:none; }
+@media (min-width:1800px) { .castle-toolbar .castle-brand { font-size:29px; }.castle-form { gap:27px; }.castle-console { padding:42px; }.castle-deck-copy strong {font-size:28px;}.castle-deck-copy > span {font-size:16px;}.castle-deck-copy small {font-size:14px;}.castle-name-field > span,.castle-field-heading,.castle-join-block > label {font-size:18px;} }
+@media (max-width:1350px) { .castle-brand small {display:none;} .castle-stage {gap:24px;} .castle-console {padding:26px;} .castle-deck-copy {padding:90px 13px 18px;} .castle-deck-copy strong {font-size:20px;} .castle-switches {gap:12px;} .castle-switch + .castle-switch {padding-left:12px;} }
+@media (max-width:1050px) and (min-width:761px) { .castle-stage {grid-template-columns:minmax(0,1fr) minmax(350px,1fr);gap:18px;} .castle-brand {font-size:20px;} .castle-toolbar {flex-wrap:wrap;gap:10px;} .castle-tools {margin-left:auto;} body.castle-theme .castle-toolbar #networkHealth {margin-left:auto;} .castle-deck-gallery {grid-template-columns:1fr;gap:8px;} .castle-lobby button.castle-deck {min-height:100px;} .castle-deck-copy {padding:15px;} .castle-deck-copy small {display:none;} .castle-intro-copy {padding:30px 4px 0;} .castle-intro-copy h1 {font-size:33px;} .castle-lobby #castleLobbyPlayers .players-list {grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media (max-width:760px) {
+  body.castle-theme:not(.battle-mode) {background-position:35% top;background-size:auto 820px;background-repeat:no-repeat;background-color:#07111e;background-attachment:scroll;}
+  body.castle-theme:not(.battle-mode) .app-shell {padding:0 14px 16px;}
+  body.castle-theme:not(.battle-mode) .castle-toolbar {margin:0 -14px;padding:12px 14px;gap:10px;flex-wrap:wrap;}
+  .castle-brand {font-size:20px;gap:7px;}.castle-brand-mark {font-size:23px;}.castle-brand small {display:none;}
+  .castle-tools {margin:0 0 0 auto;gap:5px;}.castle-toolbar .castle-tools button {min-height:34px;padding:6px 9px;font-size:11px;}
+  .castle-tools #manualMicBtn {display:none;}.castle-tools #leaveRoomBtn {font-size:10px;}
+  body.has-voice .castle-tools #manualMicBtn {display:inline-flex;}
+  body.castle-theme .castle-toolbar #networkHealth {flex-basis:100%;justify-content:flex-end;font-size:11px;min-height:18px;}
+  .castle-stage {display:flex;flex-direction:column;gap:18px;min-height:0;padding:18px 0 8px;}
+  .castle-scene {gap:24px;}.castle-intro-copy {padding:12px 12px 0;min-height:200px;}
+  .castle-intro-copy h1 {font-size:34px;letter-spacing:.1em;}.castle-intro-copy > p:last-child {font-size:13px;letter-spacing:.14em;}.castle-eyebrow {font-size:8px;}
+  .castle-deck-gallery {gap:7px;}.castle-lobby button.castle-deck {min-height:105px;border-radius:5px;}
+  .castle-deck-copy {padding:42px 8px 12px;gap:7px;}.castle-deck-copy strong {font-size:15px;}.castle-deck-copy > span {font-size:10px;white-space:nowrap;}.castle-deck-copy small {display:none;}
+  .castle-console {padding:24px 20px;border-radius:7px;}.castle-form {gap:20px;}
+  .castle-name-field {grid-template-columns:40px minmax(0,1fr);gap:10px;}.castle-lobby input,.castle-lobby select {font-size:16px;}
+  .castle-script-preview {padding:17px 12px;}.castle-script-preview strong {font-size:24px;}.castle-script-preview p {font-size:13px;}.castle-rule-button b {width:36px;height:36px;}
+  .castle-player-counts {gap:10px;}.castle-switches {gap:12px;}.castle-switch + .castle-switch {padding-left:12px;}.castle-switch {column-gap:4px;}.castle-switch > span {font-size:13px;}.castle-switch small {font-size:10px;}
+  .castle-lobby button.castle-create {font-size:25px;}.castle-join-row {gap:8px;}.castle-lobby .castle-join-row button {min-width:92px;padding:10px;font-size:14px;}
+  .castle-console-footer {font-size:11px;}.castle-details > summary {font-size:10px;} #castleLastNotice {max-width:54%;}
+  .castle-lobby.is-in-room .castle-scene {order:1;} .castle-lobby.is-in-room .castle-console {order:0;}.castle-lobby #castleLobbyPlayers .players-list {grid-template-columns:repeat(2,minmax(0,1fr));max-height:none;}
+  body.castle-theme.battle-mode .castle-toolbar {flex-wrap:wrap;gap:8px;}
+}
+@media (prefers-reduced-motion:reduce) { .castle-deck-art,.castle-switch input::before {transition:none;} }
+
+/* 错误不再只存在于折叠日志里；手机/电脑均可见且可关闭。 */
+.game-feedback { position:fixed; z-index:1200; right:16px; bottom:max(16px,env(safe-area-inset-bottom)); width:min(460px,calc(100vw - 32px)); box-sizing:border-box; display:flex; align-items:flex-start; gap:12px; padding:16px; color:#fff1dc; background:#291d24; border:1px solid #c99e67; border-radius:10px; box-shadow:0 8px 32px #0009; }
+.game-feedback p { margin:0; flex:1; min-width:0; white-space:pre-wrap; overflow-wrap:anywhere; font-size:15px; line-height:1.65; max-height:40vh; overflow:auto; }
+.game-feedback button { flex:0 0 40px; min-width:40px; min-height:40px; padding:0; color:#fff1dc; background:#ffffff12; font-size:24px; }

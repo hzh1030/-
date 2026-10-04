@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="月夜山林与古堡">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#141a38"/>
+      <stop offset=".54" stop-color="#29335b"/>
+      <stop offset="1" stop-color="#0a1021"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#fff8d5"/>
+      <stop offset=".62" stop-color="#f0d18a"/>
+      <stop offset="1" stop-color="#d28b59"/>
+    </radialGradient>
+    <linearGradient id="mist" x1="0" x2="1">
+      <stop stop-color="#8796c2" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#a1aed0" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#8796c2" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1215" cy="188" r="132" fill="#f3d998" opacity=".18" filter="url(#glow)"/>
+  <circle cx="1215" cy="188" r="92" fill="url(#moon)"/>
+  <g fill="#fff8da" opacity=".7">
+    <circle cx="149" cy="125" r="2"/><circle cx="304" cy="85" r="1.5"/><circle cx="427" cy="187" r="2"/>
+    <circle cx="648" cy="92" r="1.5"/><circle cx="771" cy="214" r="2"/><circle cx="934" cy="105" r="1"/>
+    <circle cx="1068" cy="294" r="1.5"/><circle cx="1390" cy="92" r="2"/><circle cx="1511" cy="270" r="1"/>
+  </g>
+  <path d="M0 500 175 340l127 110 171-203 124 133 154-189 139 144 131-146 178 174 155-135 198 162v280H0Z" fill="#171d3a" opacity=".85"/>
+  <path d="M0 584 170 455l143 101 125-141 138 109 183-175 152 126 145-111 162 146 126-89 209 144v315H0Z" fill="#101832"/>
+  <path d="M0 605c246-51 451-59 650-20 211 42 405 42 661-11 119-24 220-22 289-4v87H0Z" fill="url(#mist)" opacity=".58"/>
+  <g fill="#0a1123">
+    <path d="M820 590h159v-197h31v197h108v-105h25v105h121v-152h32v152h86v310H820Z"/>
+    <path d="m970 393 25-59 24 59Zm146 92 20-48 20 48Zm166-47 19-46 18 46Z"/>
+  </g>
+  <g fill="#e4a957" opacity=".82">
+    <rect x="1004" y="430" width="11" height="22" rx="5"/><rect x="1035" y="430" width="11" height="22" rx="5"/>
+    <rect x="1178" y="525" width="10" height="21" rx="5"/><rect x="1210" y="525" width="10" height="21" rx="5"/>
+    <rect x="1320" y="632" width="12" height="25" rx="5"/>
+  </g>
+  <path d="M0 686c240-72 472-55 674-10 197 44 420 54 926-31v255H0Z" fill="#0a1120"/>
+  <g fill="#070d19">
+    <path d="m76 765 24-153 26 153h-15l23 76H68l22-76Zm97 72 19-123 21 123h-13l20 63h-64l19-63Zm1270-33 25-181 29 181h-18l29 95h-88l28-95Zm-92 37 17-124 21 124h-13l21 68h-66l20-68Z"/>
+  </g>
+  <path d="M0 768c343-50 637 70 982 22 238-33 403-24 618 19v91H0Z" fill="#070b15" opacity=".8"/>
+</svg>

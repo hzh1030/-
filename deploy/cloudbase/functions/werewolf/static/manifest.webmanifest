@@ -1,0 +1,20 @@
+{
+  "name": "美烂你狼人杀",
+  "short_name": "狼人杀",
+  "description": "在线多人狼人杀游戏",
+  "lang": "zh-CN",
+  "id": "/game/",
+  "start_url": "/game/",
+  "display": "standalone",
+  "background_color": "#100d12",
+  "theme_color": "#1b1418",
+  "icons": [
+    {
+      "src": "/game/static/images/werewolf_bg.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "/game/"
+}

@@ -224,7 +224,7 @@ void main() {
 }
 `;
 
-const ITEMS = [{"src":"assets/werewolf-lobby.png","title":"美烂你 · 狼人杀","alt":"美烂你 · 狼人杀","href":"#game-gallery"},{"src":"assets/annotation-import.png","title":"视频标注协作平台","alt":"视频标注协作平台","href":"#annotation"},{"src":"assets/meixue-1.jpg","title":"美雪","alt":"美雪","href":"#life"},{"src":"assets/xuliang-live-01.jpg","title":"演唱会现场","alt":"演唱会现场","href":"#music"},{"src":"assets/girlfriend-performance-poster.jpg","title":"她的弹唱","alt":"她的弹唱","href":"#performance"}];
+const ITEMS = [{"src":"assets/werewolf-lobby.png","title":"美烂你 · 狼人杀","alt":"美烂你 · 狼人杀","href":"https://hzh1030-d2gewomfcc0f183ad-1500413737.ap-shanghai.app.tcloudbase.com/game/"},{"src":"assets/annotation-import.png","title":"视频标注协作平台","alt":"视频标注协作平台","href":"#annotation"},{"src":"assets/meixue-1.jpg","title":"美雪","alt":"美雪","href":"#life"},{"src":"assets/xuliang-live-01.jpg","title":"演唱会现场","alt":"演唱会现场","href":"#music"},{"src":"assets/girlfriend-performance-poster.jpg","title":"她的弹唱","alt":"她的弹唱","href":"#performance"}];
 async function initializeCarousel() {
   const container = document.querySelector('#portfolio-carousel');
   if (!container) return;
