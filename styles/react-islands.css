@@ -11,8 +11,8 @@ body.glass-page .portfolio-shell { background: #000; }
 #portfolio-background { position: sticky; top: 0; height: 100vh; height: 100svh; margin-bottom: -100vh; margin-bottom: -100svh; width: 100%; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 75% 40%, #112023, #000 75%); }
 .liquid-background-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
 .liquid-background-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #0007, #0004 45%, #0009), radial-gradient(ellipse at center, transparent 20%, #0006 100%); }
-.glass-page .portfolio-shell > .about-section,
-.glass-page .portfolio-shell > .achievements-section { background: #0002; backdrop-filter: none; -webkit-backdrop-filter: none; }
+body.glass-page .about-section,
+body.glass-page .achievements-section { background: #0002; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .glass-page .portfolio-shell .achievement-card,
 .glass-page .portfolio-shell .project-case { background: rgba(255,255,255,.01); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); box-shadow: inset 0 1px 1px #ffffff1a; }
 
