@@ -1,6 +1,6 @@
 {
   "releaseTag": "portfolio-media-v1",
-  "importBase": "https://eddie-mtv-suggestions-encoding.trycloudflare.com",
+  "importBase": null,
   "files": [
     {
       "name": "concert-01.mp4",
@@ -443,5 +443,6 @@
       "sha256": "9b9ddfed41ff1afeade4671f6871ff25fb177f8ea9902c8242aca094d487c452",
       "type": "audio/mpeg"
     }
-  ]
+  ],
+  "completed": true
 }
