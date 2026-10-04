@@ -1,0 +1,1904 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="韩子和的个人空间：来自山西太原，喜欢篮球、游戏和音乐。这里有我的狼人杀游戏、视频标注协作平台、团团与美雪、薛之谦和徐良演唱会片段，以及女朋友的弹唱。">
+  <title>Design World — Explore New Ideas</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2316191f'/%3E%3Cpath d='M8 9h16v3L12 21h12v3H8v-3l12-9H8z' fill='%23ff6b35'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=cosmos-1">
+  <link rel="stylesheet" href="aurora.css?v=cosmos-1">
+  <script defer src="app.js?v=glass-14"></script>
+  <link rel="stylesheet" href="portal.css?v=cosmos-1">
+  <link rel="stylesheet" href="cosmos.css?v=cosmos-1">
+  <link rel="stylesheet" href="ocean.css?v=glass-14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+    :root { --bg:#000; --fg:#fff; --pad-x:clamp(20px,6.95vw,120px) }
+    * { box-sizing:border-box }
+    html,body { height:100%; margin:0; background:#000; color:#fff; font-family:'Poppins',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden }
+    button,a { -webkit-tap-highlight-color:transparent }
+    button { font:inherit }
+    button:focus-visible,a:focus-visible,#scene:focus-visible { outline:2px solid #fff; outline-offset:6px }
+    .hero { position:relative; width:100%; height:100vh; height:100svh; min-height:520px; overflow:hidden; background:#000 }
+    #scene { position:absolute; inset:0; width:100%; height:100%; display:block; cursor:grab; touch-action:none }
+    #scene.dragging { cursor:grabbing }
+    .ui { position:absolute; inset:0; pointer-events:none; z-index:2 }
+    .ui a,.ui button { pointer-events:auto }
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap }
+    .nav { position:absolute; top:clamp(24px,4.7vh,40px); left:var(--pad-x); right:var(--pad-x); display:flex; align-items:center; justify-content:space-between }
+    .logo { display:flex; align-items:center; gap:8px; color:#fff; text-decoration:none; font-size:15px; letter-spacing:-0.01em }
+    .logo-mark { width:20px; height:40px; background:#fff; border-radius:0 20px 20px 0 }
+    .logo b { font-weight:700 }
+    .logo span { font-weight:400 }
+    .nav-links { display:flex; gap:clamp(20px,4.1vw,60px); list-style:none; padding:0; margin:0 }
+    .nav-links a { color:#fff; text-decoration:none; font-size:15px; font-weight:500; position:relative }
+    .nav-links a::after { content:''; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .35s ease }
+    .nav-links a:hover::after { transform:scaleX(1); transform-origin:left }
+    .arrows { position:absolute; top:18.9%; left:76.7%; display:flex; gap:32px; transform:translate(-19px,-50%) }
+    .arrow { width:38px; height:38px; padding:0; border-radius:50%; border:2.5px solid #fff; background:transparent; color:#fff; display:grid; place-items:center; cursor:pointer; transition:background .25s,color .25s }
+    .arrow svg { width:18px; height:18px }
+    .arrow:hover { background:#fff; color:#000 }
+    .dots { position:absolute; right:calc(var(--pad-x) - 7px); top:49.4%; transform:translateY(-50%); display:flex; flex-direction:column; gap:33px }
+    .dot { width:14px; height:14px; padding:0; border-radius:50%; border:2px solid #fff; background:#fff; cursor:pointer; transition:background .25s }
+    .dot.active { background:transparent }
+    .tagline { position:absolute; left:var(--pad-x); bottom:clamp(40px,7.5vh,70px); margin:0; font-size:clamp(24px,2.65vw,44px); line-height:1.2; font-weight:300; letter-spacing:-0.01em }
+    .tagline strong { font-weight:700; display:block }
+    .cta-row { position:absolute; left:45.6%; right:-1vw; top:88.7%; transform:translateY(-50%); display:flex; align-items:center }
+    .cta { flex:none; padding:0 15px; height:48px; display:inline-flex; align-items:center; border:1.5px solid rgba(255,255,255,.85); border-radius:6px; background:rgba(0,0,0,.15); color:#fff; font-size:14px; font-weight:400; text-decoration:none; cursor:pointer; transition:background .25s,color .25s }
+    .cta:hover { background:#fff; color:#000 }
+    .cta-line { flex:1; height:1.5px; background:rgba(255,255,255,.8); min-width:40px }
+    .count { flex:none; font-size:clamp(140px,19.8vw,360px); font-weight:400; line-height:1; letter-spacing:-0.02em; color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.9); transform:translateY(6%); user-select:none }
+    .loader { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:12px; letter-spacing:.2em; text-transform:uppercase; opacity:.6; transition:opacity .6s }
+    .loader.done { opacity:0 }
+    @media (max-width:900px),(max-aspect-ratio:1/1) {
+      .arrows { left:auto; right:var(--pad-x); top:15%; transform:translateY(-50%); gap:14px }
+      .tagline { bottom:clamp(150px,20vh,220px) }
+      .cta-row { left:var(--pad-x); right:-3vw; top:auto; bottom:24px; transform:none }
+      .count { font-size:clamp(120px,22vw,200px) }
+    }
+    @media (max-width:640px) {
+      .nav-links { gap:16px }
+      .nav-links a,.logo { font-size:13px }
+      .dots { gap:20px; right:16px }
+      .dot { width:10px; height:10px }
+      .cta-row { right:-8vw }
+      .count { font-size:120px }
+    }
+    @media (max-width:420px) { .nav-links li:nth-child(2) { display:none } }
+    @media (prefers-reduced-motion:reduce) {
+      .nav-links a::after,.arrow,.dot,.cta,.loader { transition:none }
+    }
+  
+
+.glass-page{height:auto;overflow-x:clip}
+#hero.hero{display:block;margin:0;padding:0;gap:0;grid-template-columns:none;isolation:isolate;min-height:520px;color:#fff;font-family:'Poppins',sans-serif}
+#hero:before,#hero:after{display:none}
+.glass-page .site-header{opacity:0;visibility:hidden;transform:translateY(-100px);transition:opacity .25s,transform .25s,visibility .25s}
+.glass-page.glass-past-hero .site-header{opacity:1;visibility:visible;transform:translateY(0)}
+#glass-fallback{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.glass-rendered #glass-fallback{visibility:hidden}
+.glass-page .portfolio-shell{background:radial-gradient(ellipse at 5% 9%,#14463333,transparent 30%),#060c12}
+
+/* Small decorative ZH logo; the root integrates placement with its layout. */
+#electric-decoration {
+  position: absolute;
+  left: var(--pad-x, 4vw);
+  top: 34%;
+  width: 170px;
+  height: 220px;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: auto;
+  touch-action: pan-y;
+}
+#electric-logo,
+.electric-logo-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.electric-logo-fallback {
+  object-fit: contain;
+  padding: 15%;
+  filter: drop-shadow(0 0 5px #ad6dff) drop-shadow(0 0 16px #ad6dff66);
+}
+@media (max-width: 720px) {
+  #electric-decoration {
+    width: 90px;
+    height: 110px;
+    left: var(--pad-x, 20px);
+    top: 100px;
+  }
+}
+
+</style>
+<script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+<script defer src="portfolio-motion.js?v=glass-14"></script>
+</head>
+<body class="ocean-page glass-page ocean-nav-deep">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true">✳</span><span>背景动效</span><span class="motion-state" aria-hidden="true">关</span></button>
+  <header class="site-header">
+    <div class="header-inner wrap">
+      <a class="brand" href="#home" aria-label="ZH的个站，返回首页"><span class="brand-mark" aria-hidden="true">zh<span>·</span></span><span class="brand-name">ZH的个站</span></a>
+      <nav aria-label="主要导航"><a href="#home" aria-current="page">首页</a><a href="#work">作品</a><a href="#about">关于我</a><a href="#contact">联系</a></nav>
+      <a class="header-resume" href="/resume">简历精简版</a>
+    </div>
+  </header>
+  <main id="main">
+    <div id="home"><section class="hero" id="hero">
+    <canvas id="glass-fallback" aria-hidden="true"></canvas><canvas id="scene" tabindex="0" aria-label="Rotatable glass cube. Drag to rotate."></canvas>
+    <div id="electric-decoration" aria-hidden="true"><canvas id="electric-logo"></canvas></div><div class="ui">
+      <h1 class="sr-only">Explore New Ideas</h1>
+      <header class="nav">
+        <a href="#hero" class="logo"><i class="logo-mark" aria-hidden="true"></i><b>Design</b><span>World</span></a>
+        <ul class="nav-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#work">Portfolio</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </header>
+      <div class="arrows">
+        <button class="arrow" id="prev" type="button" aria-label="Rotate cube left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="arrow" id="next" type="button" aria-label="Rotate cube right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <nav class="dots" aria-label="Select view">
+        <button class="dot" type="button" aria-label="View 1" aria-pressed="false"></button>
+        <button class="dot active" type="button" aria-label="View 2" aria-pressed="true"></button>
+        <button class="dot" type="button" aria-label="View 3" aria-pressed="false"></button>
+      </nav>
+      <p class="tagline">Let's Build the<br>Future of <strong>Design.</strong></p>
+      <div class="cta-row">
+        <a href="#work" class="cta">Explore Now</a>
+        <span class="cta-line" aria-hidden="true"></span>
+        <span class="count" aria-hidden="true">07</span>
+      </div>
+      <div class="loader" id="loader" role="status">Loading model</div>
+    </div>
+  </section></div>
+    <div class="portfolio-shell">
+    <div class="intro-strip wrap" aria-label="个人信息"><span>韩子和 / ZH</span><span class="strip-cross" aria-hidden="true">＋</span><span>山西 · 太原</span><span class="strip-cross" aria-hidden="true">＋</span><span>纯 I 人</span><p>篮球、游戏、音乐，团团和美雪。</p></div>
+    <div class="showcase-ribbon" aria-label="作品与生活预览"><div class="ribbon-track"><div class="ribbon-group"><a class="ribbon-shot" href="#game-gallery"><img src="assets/werewolf-lobby.png" alt="" loading="lazy"><span>美烂你 · 狼人杀</span></a><a class="ribbon-shot" href="#annotation"><img src="assets/annotation-import.png" alt="" loading="lazy"><span>视频标注协作平台</span></a><a class="ribbon-shot" href="#life"><img src="assets/meixue-1.jpg" alt="" loading="lazy"><span>美雪</span></a><a class="ribbon-shot" href="#music"><img src="assets/xuliang-live-01.jpg" alt="" loading="lazy"><span>演唱会现场</span></a><a class="ribbon-shot" href="#performance"><img src="assets/girlfriend-performance-poster.jpg" alt="" loading="lazy"><span>她的弹唱</span></a></div><div class="ribbon-group" aria-hidden="true"><a class="ribbon-shot" href="#game-gallery" tabindex="-1"><img src="assets/werewolf-lobby.png" alt="" loading="lazy"><span>美烂你 · 狼人杀</span></a><a class="ribbon-shot" href="#annotation" tabindex="-1"><img src="assets/annotation-import.png" alt="" loading="lazy"><span>视频标注协作平台</span></a><a class="ribbon-shot" href="#life" tabindex="-1"><img src="assets/meixue-1.jpg" alt="" loading="lazy"><span>美雪</span></a><a class="ribbon-shot" href="#music" tabindex="-1"><img src="assets/xuliang-live-01.jpg" alt="" loading="lazy"><span>演唱会现场</span></a><a class="ribbon-shot" href="#performance" tabindex="-1"><img src="assets/girlfriend-performance-poster.jpg" alt="" loading="lazy"><span>她的弹唱</span></a></div></div></div>
+    <section class="work-section wrap" id="work" aria-labelledby="work-title">
+      <div class="section-heading"><div><p class="eyebrow section-index">01 / THINGS I'VE MADE</p><h2 id="work-title">我做的小作品<span class="orange-period">。</span></h2></div><span class="demo-label">从喜欢玩，到尝试创造</span></div>
+      <div class="selected-projects" aria-label="精选作品与生活">
+        <a class="project-preview preview-game" href="#game-gallery"><img src="assets/werewolf-opening.png" alt="美烂你狼人杀游戏角色阵容" width="1239" height="881" loading="lazy"><span class="preview-caption"><strong>美烂你 · 狼人杀</strong><small>游戏创作 / 房间、角色与语音交流</small></span></a>
+        <a class="project-preview preview-platform" href="#annotation"><img src="assets/annotation-import.png" alt="视频标注协作平台界面预览" width="1896" height="958" loading="lazy"><span class="preview-caption"><strong>视频标注协作平台</strong><small>素材导入 / 任务分配 / 评分标准</small></span></a>
+        <a class="project-preview preview-life" href="#life"><img src="assets/tuantuan-groomed.jpg" alt="剪完毛的团团" width="959" height="1280" loading="lazy"><span class="preview-caption"><strong>生活的另一面</strong><small>团团、美雪与我的日常</small></span></a>
+      </div>
+      <details class="project-case" id="game-case"><summary><span><small>01 / GAME</small>美烂你 · 狼人杀</span><span class="case-action">作品详情</span></summary>
+      <article class="featured-game" aria-labelledby="game-title">
+        <div class="game-top"><div><span class="game-kicker">GAME PROJECT / 我的游戏</span><h3 id="game-title">美烂你 · 狼人杀</h3><p class="game-tagline">身份藏于暗处，真相生于言语。</p></div><div class="game-summary"><p>一个围绕身份、发言与推理展开的狼人杀游戏。把开场、房间大厅、角色规则与语音交流，放进同一个游戏体验里。</p><div class="game-tags"><span>9–12 人配置</span><span>创建 / 加入房间</span><span>人机模式</span><span>语音交流</span></div></div></div>
+        <div class="game-gallery" id="game-gallery">
+          <figure><button class="image-open" data-image="assets/werewolf-opening.png" data-caption="美烂你 · 狼人杀 / 开场画面" aria-label="放大查看狼人杀开场画面"><span class="game-screen-crop"><img src="assets/werewolf-opening.png" alt="美烂你狼人杀的开场画面，暗色古堡大厅与角色阵容" width="1239" height="881" loading="lazy"></span></button><figcaption><span>01 / 开场画面</span><span>点击查看大图</span></figcaption></figure>
+          <figure><button class="image-open" data-image="assets/werewolf-lobby.png" data-caption="美烂你 · 狼人杀 / 房间大厅" aria-label="放大查看狼人杀房间大厅"><img src="assets/werewolf-lobby.png" alt="狼人杀大厅，展示角色配置、玩家人数、人机模式及创建和加入房间功能" width="1902" height="1000" loading="lazy"></button><figcaption><span>02 / 房间大厅</span><span>点击查看大图</span></figcaption></figure>
+        </div>
+        <div class="game-note"><span class="game-version">局域网版本</span><p>当前版本支持局域网对局；这里展示开场与房间大厅画面。</p></div>
+      </article></details>
+      <details class="project-case" id="platform-case"><summary><span><small>02 / PLATFORM</small>视频标注协作平台</span><span class="case-action">作品详情</span></summary>
+      <article class="annotation-project" id="annotation" aria-labelledby="annotation-title">
+        <div class="annotation-heading"><div><p class="annotation-kicker">ANNOTATION PLATFORM / 我的平台</p><h3 id="annotation-title">视频标注协作平台</h3></div><div><p>我制作的标注协作平台，整合素材导入、任务分配、标注培训与评分规则配置，支持统一标准下的多人协作。</p><div class="annotation-tags"><span>批量导入</span><span>任务分配</span><span>标注培训</span><span>评分同步</span></div></div></div>
+        <div class="annotation-gallery">
+          <figure><button class="image-open" data-image="assets/annotation-import.png" data-caption="视频标注协作平台 / 数据与素材导入" aria-label="放大查看数据与素材导入界面"><img src="assets/annotation-import.png" alt="视频标注协作平台的数据与素材导入界面" width="1896" height="958" loading="lazy"></button><figcaption><strong>01 / 数据与素材导入</strong><span>点击查看原图</span></figcaption><p>按批次导入表格和视频素材，支持文件、文件夹及压缩包导入，并匹配样本。</p></figure>
+          <figure><button class="image-open" data-image="assets/annotation-assignment.png" data-caption="视频标注协作平台 / 标注任务分配" aria-label="放大查看标注任务分配界面"><img src="assets/annotation-assignment.png" alt="视频标注协作平台的标注任务分配界面" width="1864" height="925" loading="lazy"></button><figcaption><strong>02 / 标注任务分配</strong><span>点击查看原图</span></figcaption><p>查看样本、难度与任务状态，选择样本后指定分配给标注人员。</p></figure>
+          <figure><button class="image-open" data-image="assets/annotation-training.png" data-caption="视频标注协作平台 / 标注人员培训" aria-label="放大查看标注人员培训界面"><img src="assets/annotation-training.png" alt="视频标注协作平台的标注人员培训界面" width="1913" height="898" loading="lazy"></button><figcaption><strong>03 / 标注人员培训</strong><span>点击查看原图</span></figcaption><p>以已裁定样本作为标准答案，提供答题反馈、命中率及维度偏差记录。</p></figure>
+          <figure><button class="image-open" data-image="assets/annotation-standards.png" data-caption="视频标注协作平台 / 评分规则配置与同步" aria-label="放大查看评分规则配置与同步界面"><img src="assets/annotation-standards.png" alt="视频标注协作平台的评分规则配置与同步界面" width="1847" height="871" loading="lazy"></button><figcaption><strong>04 / 评分规则配置与同步</strong><span>点击查看原图</span></figcaption><p>调整评分档位、维度和问题标签，保存后同步至各标注角色。</p></figure>
+        </div>
+      </article></details>
+      <div class="experiments-heading"><h3>一些交互小实验</h3><span>个站演示 · 点击体验</span></div>
+      <div class="work-grid">
+        <article class="work-card">
+          <button class="work-open" data-project="palette" aria-label="打开色彩拾光演示作品">
+            <div class="work-visual palette-visual" aria-hidden="true"><div class="mini-caption">COLOR STUDY / 01</div><div class="palette-bars"><span></span><span></span><span></span><span></span><span></span></div><div class="palette-footer"><span>拾起一组好颜色</span><span>05 COLORS</span></div></div>
+            <div class="work-info"><div class="work-number">01 <span>色彩 · 交互</span></div><div class="work-title-row"><h3>色彩拾光</h3><span class="project-plus" aria-hidden="true">＋</span></div><p>换一种配色，看看世界的另一面。</p></div>
+          </button>
+        </article>
+        <article class="work-card">
+          <button class="work-open" data-project="note" aria-label="打开灵感便签演示作品">
+            <div class="work-visual note-visual" aria-hidden="true"><div class="mini-caption">LITTLE NOTES / 02</div><div class="note-preview"><div class="note-preview-head"><span>灵感不等人</span><span>✳</span></div><p>有些想法，<br>值得被记下来。</p><div class="note-preview-bottom"><span>留给未来的自己</span><span>ZH</span></div></div></div>
+            <div class="work-info"><div class="work-number">02 <span>记录 · 小工具</span></div><div class="work-title-row"><h3>灵感便签</h3><span class="project-plus" aria-hidden="true">＋</span></div><p>给一闪而过的想法，一个留下来的理由。</p></div>
+          </button>
+        </article>
+        <article class="work-card">
+          <button class="work-open" data-project="type" aria-label="打开字间实验演示作品">
+            <div class="work-visual type-visual" aria-hidden="true"><div class="mini-caption">TYPE EXPLORATION / 03</div><div class="type-preview">字<span>间</span><i>。</i></div><div class="type-preview-foot"><span>WORDS HAVE SHAPES.</span><span>Aa</span></div></div>
+            <div class="work-info"><div class="work-number">03 <span>排版 · 实验</span></div><div class="work-title-row"><h3>字间实验</h3><span class="project-plus" aria-hidden="true">＋</span></div><p>同一句话，也可以有不同的性格。</p></div>
+          </button>
+        </article>
+      </div>
+    </section>
+    <section class="about-section" id="about" aria-labelledby="about-title">
+      <div class="about-inner wrap"><div class="about-title"><p class="eyebrow section-index">02 / A LITTLE ABOUT ME</p><h2 id="about-title">韩子和<span class="orange-period">。</span></h2><p class="about-signature" aria-hidden="true">Stay curious.</p><img class="about-avatar" src="assets/zh-anime.png" alt="韩子和的动漫形象" width="941" height="1672" loading="lazy"></div><div class="about-copy"><p>来自山西太原，性格偏内向。<br>喜欢篮球、游戏和音乐，<br>也喜欢把想法一点点做出来。</p><p>从狼人杀游戏到视频标注协作平台，这里记录着我的尝试与作品。闲下来时，听听薛之谦，陪陪团团和美雪，也把值得留住的日常收进这个小站。</p><div class="interest-tags"><span>篮球</span><span>游戏</span><span>听歌 · 薛之谦</span></div></div></div>
+    </section>
+    <section class="life-section wrap" id="life" aria-labelledby="life-title">
+      <div class="section-heading"><div><p class="eyebrow section-index">03 / LITTLE MOMENTS</p><h2 id="life-title">家里的小伙伴<span class="orange-period">。</span></h2></div><span class="demo-label">团团、美雪，还有小猫</span></div>
+      <div class="pet-subheading"><h3>我的小狗，团团</h3><span>照片与日常视频</span></div>
+      <div class="pet-gallery">
+        <figure><button class="image-open" data-image="assets/tuantuan-young.jpg" data-caption="团团 / 小时候的潦草狗" aria-label="放大查看团团小时候的照片"><img src="assets/tuantuan-young.jpg" alt="小狗团团小时候趴在沙发上的照片" width="960" height="1280" loading="lazy"></button><figcaption><span>小时候的潦草狗</span><span>01 / TUANTUAN</span></figcaption></figure>
+        <figure><button class="image-open" data-image="assets/tuantuan-groomed.jpg" data-caption="团团 / 剪完毛的它（摆拍）" aria-label="放大查看团团剪完毛的照片"><img src="assets/tuantuan-groomed.jpg" alt="剪完毛的团团戴着星星围巾，坐在足球背景前" width="959" height="1280" loading="lazy"></button><figcaption><span>剪完毛的它 <small>（摆拍）</small></span><span>02 / TUANTUAN</span></figcaption></figure>
+      </div>
+      <div class="pet-video-grid video-grid">
+        <figure class="video-card"><video controls playsinline preload="none" poster="assets/tuantuan-01-poster.jpg" aria-labelledby="tuantuan-video-1-title"><source src="assets/videos/tuantuan-01.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="tuantuan-video-1-title">团团的日常 · 01</span><span>00:32</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/tuantuan-01.mp4" download>下载原视频 · 6.6 MB</a></figure>
+        <figure class="video-card"><video controls playsinline preload="none" poster="assets/tuantuan-02-poster.jpg" aria-labelledby="tuantuan-video-2-title"><source src="assets/videos/tuantuan-02.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="tuantuan-video-2-title">团团的日常 · 02</span><span>00:20</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/tuantuan-02.mp4" download>下载原视频 · 3.9 MB</a></figure>
+      </div>
+      <figure class="video-card pet-playtime video-landscape"><video controls playsinline preload="none" poster="assets/tuantuan-cat-upright-poster.png" aria-labelledby="tuantuan-cat-title"><source src="assets/videos/tuantuan-cat.mp4?v=upright-90" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="tuantuan-cat-title">团团和小猫的打闹时刻</span><span>01:10 · 原画质</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/tuantuan-cat.mp4?v=upright-90" download>下载原画质视频 · 13.4 MB</a></figure>
+      <div class="pet-subheading meixue-heading"><h3>还有美雪</h3><span>肥尾沙鼠</span></div>
+      <div class="meixue-gallery">
+        <figure><button class="image-open" data-image="assets/meixue-1.jpg" data-caption="美雪 / 01" aria-label="放大查看美雪的第一张照片"><img src="assets/meixue-1.jpg" alt="肥尾沙鼠美雪被捧在手心里的第一张照片" width="960" height="1280" loading="lazy"></button><figcaption>美雪 · 01</figcaption></figure>
+        <figure><button class="image-open" data-image="assets/meixue-2.jpg" data-caption="美雪 / 02" aria-label="放大查看美雪的第二张照片"><img src="assets/meixue-2.jpg" alt="肥尾沙鼠美雪被捧在手心里的第二张照片" width="1280" height="1708" loading="lazy"></button><figcaption>美雪 · 02</figcaption></figure>
+        <figure><button class="image-open" data-image="assets/meixue-3.jpg" data-caption="美雪 / 03" aria-label="放大查看美雪的第三张照片"><img src="assets/meixue-3.jpg" alt="肥尾沙鼠美雪正面看向镜头的照片" width="960" height="1280" loading="lazy"></button><figcaption>美雪 · 03</figcaption></figure>
+        <figure><button class="image-open" data-image="assets/meixue-4.jpg" data-caption="美雪 / 04" aria-label="放大查看美雪的第四张照片"><img src="assets/meixue-4.jpg" alt="肥尾沙鼠美雪侧脸的近照" width="960" height="1280" loading="lazy"></button><figcaption>美雪 · 04</figcaption></figure>
+      </div>
+    </section>
+    <section class="music-section wrap" id="music" aria-labelledby="music-title"><div class="section-heading"><div><p class="eyebrow section-index">04 / MUSIC & MEMORIES</p><h2 id="music-title">音乐，和喜欢的现场<span class="orange-period">。</span></h2></div><span class="demo-label">演唱会与弹唱</span></div>
+      <p class="music-quality-note">视频保留原画质与声音，点击后加载。</p>
+      <div class="pet-subheading music-subheading"><h3>薛之谦 · 演唱会</h3><span>把喜欢的歌留在现场</span></div>
+      <div class="music-video-grid video-grid">
+        <figure class="video-card"><video controls playsinline preload="none" poster="assets/concert-01-poster.jpg" aria-labelledby="concert-video-1-title"><source src="assets/videos/concert-01.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="concert-video-1-title">薛之谦演唱会 · 片段 01</span><span>00:27 · 4K</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/concert-01.mp4" download>下载原视频 · 268 MB</a></figure>
+        <figure class="video-card"><video controls playsinline preload="none" poster="assets/concert-02-poster.jpg" aria-labelledby="concert-video-2-title"><source src="assets/videos/concert-02.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="concert-video-2-title">薛之谦演唱会 · 片段 02</span><span>01:14 · 4K</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/concert-02.mp4" download>下载原视频 · 1,023 MB</a></figure>
+      </div>
+      <div class="pet-subheading music-subheading music-group-heading" id="xuliang"><h3>徐良 · 演唱会</h3><span>现场的灯光与回忆</span></div>
+      <div class="xuliang-grid">
+        <figure class="video-card"><video controls playsinline preload="none" poster="assets/xuliang-live-poster.jpg" aria-labelledby="xuliang-video-title"><source src="assets/videos/xuliang-live.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="xuliang-video-title">徐良演唱会 · 现场片段</span><span>00:36 · 原画质</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/xuliang-live.mp4" download>下载原视频 · 7.8 MB</a></figure>
+        <div class="concert-photo-gallery">
+          <figure><button class="image-open" data-image="assets/xuliang-live-01.jpg" data-caption="徐良演唱会 / 现场" aria-label="放大查看徐良演唱会现场照片"><img src="assets/xuliang-live-01.jpg" alt="徐良演唱会现场，红色灯光和彩纸映照舞台与观众席" width="1707" height="1280" loading="lazy"></button><figcaption>现场的热烈</figcaption></figure>
+          <figure><button class="image-open" data-image="assets/xuliang-live-02.jpg" data-caption="徐良演唱会 / 荧光棒" aria-label="放大查看徐良演唱会荧光棒照片"><img src="assets/xuliang-live-02.jpg" alt="徐良演唱会观众席中的荧光棒与舞台" width="960" height="1280" loading="lazy"></button><figcaption>留下一点光</figcaption></figure>
+        </div>
+      </div>
+      <div class="pet-subheading music-subheading music-group-heading" id="performance"><h3>女朋友的弹唱</h3><span>属于日常的音乐时刻</span></div>
+      <figure class="video-card performance-card"><video controls playsinline preload="none" poster="assets/girlfriend-performance-poster.jpg" aria-labelledby="performance-video-title"><source src="assets/videos/girlfriend-performance.mp4" type="video/mp4">你的浏览器暂不支持视频播放。</video><figcaption><span id="performance-video-title">她的弹唱</span><span>00:40 · 原画质</span></figcaption><p class="video-error" hidden role="status">此浏览器无法播放原画质视频，可以下载后用视频播放器查看。</p><a class="video-file-link" href="assets/videos/girlfriend-performance.mp4" download>下载原视频 · 3.6 MB</a></figure>
+    </section>
+    <section class="achievements-section" id="achievements" aria-labelledby="achievements-title"><div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow section-index">05 / SMALL WINS</p><h2 id="achievements-title">小小成就<span class="orange-period">。</span></h2></div><span class="demo-label">认真玩，也认真记住</span></div>
+      <div class="achievements-grid"><article class="achievement-card"><p class="eyebrow">LEAGUE OF LEGENDS / S13</p><p class="achievement-number">499<span>分</span></p><h3>英雄联盟 S13 · 宗师</h3><p class="achievement-caption">AD 单排</p></article><article class="achievement-card"><p class="eyebrow">SNOOKER / PERSONAL BEST</p><p class="achievement-number">42<span>分</span></p><h3>斯诺克单杆纪录</h3><p class="achievement-caption">一次单杆 42 分</p></article></div>
+      <figure class="rank-record"><button class="image-open" data-image="assets/league-rank.png" data-caption="英雄联盟 / S13 排位记录" aria-label="放大查看英雄联盟S13排位记录"><img src="assets/league-rank.png" alt="英雄联盟S13排位记录，单排最高显示傲世宗师499分" width="699" height="224" loading="lazy"></button><figcaption>英雄联盟 S13 排位记录 · 点击查看大图</figcaption></figure>
+    </div></section>
+    <section class="contact-section wrap" id="contact" aria-labelledby="contact-title"><div class="contact-copy"><p class="eyebrow section-index">06 / SAY HELLO</p><h2 id="contact-title">在微信上找到我<span class="orange-period">。</span></h2><p>扫描二维码，或在手机上保存图片，<br>到微信中识别二维码。</p><a class="text-link" href="assets/wechat.jpg" download="韩子和-微信二维码.jpg">保存微信二维码 <span aria-hidden="true">＋</span></a></div><button class="wechat-card image-open" data-image="assets/wechat.jpg" data-caption="韩子和 / 微信二维码" aria-label="放大查看韩子和的微信二维码"><img src="assets/wechat.jpg" alt="韩子和提供的微信名片与二维码" width="888" height="1131" loading="lazy"></button></section>
+    </div>
+  </main>
+  <footer class="site-footer wrap"><a class="brand-mark" href="#home" aria-label="ZH的个站首页">zh<span>·</span></a><p>© <span id="year">2026</span> 韩子和 / ZH的个站</p><a class="footer-top" href="#home">回到顶部</a></footer>
+  <dialog id="project-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-top"><span class="dialog-kicker">ZH / 演示作品</span><button class="icon-button" id="close-dialog" aria-label="关闭作品详情">×</button></div>
+    <div class="dialog-content">
+      <p class="eyebrow" id="dialog-category"></p><h2 id="dialog-title"></h2><p class="dialog-description" id="dialog-description"></p>
+      <section id="palette-demo" class="demo-panel" hidden aria-label="配色演示"><div class="palette-live" id="palette-live"></div><div class="demo-controls"><p id="palette-name">橙色日常</p><button class="button button-dark button-small" id="next-palette">换一组配色</button></div><p class="demo-help">点击色块，复制颜色值。</p></section>
+      <section id="note-demo" class="demo-panel" hidden aria-label="便签演示"><label class="control-label" for="note-text">写下此刻的灵感</label><textarea id="note-text" maxlength="2000" placeholder="一个想法、一句话，或一件想做的小事……" rows="6"></textarea><div class="demo-controls"><span class="note-count" id="note-count">0 / 2000</span><button class="button button-dark button-small" id="save-note">保存便签</button></div><p class="demo-help">便签只保存在当前浏览器中。</p></section>
+      <section id="type-demo" class="demo-panel" hidden aria-label="排版演示"><div class="type-live" id="type-live">让想法发光。</div><label class="control-label" for="type-text">预览文字</label><input type="text" id="type-text" value="让想法发光。" maxlength="32"><div class="type-controls"><div><label class="control-label" for="type-font">字体风格</label><select id="type-font"><option value="sans">无衬线 · 干净直接</option><option value="serif">衬线 · 温柔文艺</option></select></div><div><label class="control-label" for="type-weight">字重 <output id="weight-value">600</output></label><input type="range" id="type-weight" min="300" max="800" step="100" value="600"></div></div></section>
+      <div class="project-details"><div><span>作品形式</span><p id="project-format"></p></div><div><span>尝试方向</span><p id="project-focus"></p></div></div>
+    </div>
+  </dialog>
+  <dialog id="media-dialog" class="media-dialog" aria-labelledby="media-title"><div class="dialog-top"><h2 id="media-title">查看图片</h2><button class="icon-button" id="close-media" aria-label="关闭图片">×</button></div><div class="media-content"><div class="media-image-frame" id="media-image-frame"><img id="media-image" alt=""></div></div></dialog>
+  <div class="toast" role="status" aria-live="polite" id="toast"></div>
+<script>
+(() => {
+ const stage=document.querySelector('#hero'),canvas=document.querySelector('#glass-fallback'),ctx=canvas.getContext('2d');
+ function draw(){
+  const w=stage.clientWidth,h=stage.clientHeight,dpr=Math.min(devicePixelRatio||1,2),mobile=w<768||w/h<1;
+  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#000';ctx.fillRect(0,0,w,h);
+  let size=Math.min(h*.21,w*(mobile?.21:.118));ctx.font='800 '+size+'px Poppins,sans-serif';
+  const max=Math.max(...['Explore','New','Ideas'].map(text=>ctx.measureText(text).width));if(max>w*(mobile?.9:.5))size*=w*(mobile?.9:.5)/max;
+  ctx.font='800 '+size+'px Poppins,sans-serif';ctx.fillStyle='#e9e9e9';ctx.textAlign='center';ctx.textBaseline='alphabetic';
+  ['Explore','New','Ideas'].forEach((text,i)=>ctx.fillText(text,w*(mobile?.5:.505),h*(mobile?.45:.468)+size*.35+(i-1)*size*1.07));
+ }
+ draw();new ResizeObserver(draw).observe(stage);document.fonts?.ready.then(draw);document.fonts?.addEventListener('loadingdone',draw);
+})();</script>
+<script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { mergeVertices, mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+    import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+try {
+
+
+
+
+
+    const MODEL_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260929_212926_92423081-b0e4-4f5a-b650-14af6c05c058.glb';
+    const hero = document.getElementById('hero');
+    const canvas = document.getElementById('scene');
+    const loaderElement = document.getElementById('loader');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const motionToggle = document.getElementById('motion-toggle');
+    let hostControlsMotion = Boolean(motionToggle);
+    let motionEnabled = motionToggle ? motionToggle.getAttribute('aria-pressed') === 'true' : !reducedMotion.matches;
+    const motionAllowed = () => motionEnabled && (hostControlsMotion || !reducedMotion.matches);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false });
+    renderer.setClearColor(0x000000, 1);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    camera.position.set(0, 0, 10);
+    camera.lookAt(0, 0, 0);
+    const pivot = new THREE.Group();
+    const spinner = new THREE.Group();
+    scene.add(pivot);
+    pivot.add(spinner);
+    spinner.rotation.set(-0.42, 0.62, 0.18);
+
+    const headlineCanvas = document.createElement('canvas');
+    const headlineContext = headlineCanvas.getContext('2d');
+    let headlineTexture = new THREE.CanvasTexture(headlineCanvas);
+    headlineTexture.colorSpace = THREE.SRGBColorSpace;
+    headlineTexture.minFilter = THREE.LinearFilter;
+    headlineTexture.magFilter = THREE.LinearFilter;
+    headlineTexture.generateMipmaps = false;
+    const bgScene = new THREE.Scene();
+    const bgCamera = new THREE.Camera();
+    const bgMaterial = new THREE.ShaderMaterial({
+      uniforms:{ uTex:{ value:headlineTexture } },
+      vertexShader:`
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position.xy, 0.0, 1.0);
+        }
+      `,
+      fragmentShader:`
+        uniform sampler2D uTex;
+        varying vec2 vUv;
+        void main() {
+          gl_FragColor = texture2D(uTex, vUv);
+          #include <colorspace_fragment>
+        }
+      `,
+      depthTest:false,
+      depthWrite:false
+    });
+    const background = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), bgMaterial);
+    background.frustumCulled = false;
+    bgScene.add(background);
+
+    // Targets keep their default linear color space. Only the final screen pass
+    // converts the shader output to the renderer's sRGB output color space.
+    const targetOptions = { type:THREE.HalfFloatType, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter, generateMipmaps:false };
+    const rtBack = new THREE.WebGLRenderTarget(1, 1, targetOptions);
+    const rtFront = new THREE.WebGLRenderTarget(1, 1, targetOptions);
+    const resolution = new THREE.Vector2(1, 1);
+    const glassVertex = `
+      varying vec3 vNormal;
+      varying vec3 vEye;
+      void main() {
+        vec4 worldPos = modelMatrix * vec4(position, 1.0);
+        vec4 mvPos = viewMatrix * worldPos;
+        gl_Position = projectionMatrix * mvPos;
+        vNormal = normalize(normalMatrix * normal);
+        vEye = normalize(mvPos.xyz);
+      }
+    `;
+    const glassFragment = `
+      uniform sampler2D uTexture;
+      uniform vec2 uResolution;
+      uniform float uIorR;
+      uniform float uIorY;
+      uniform float uIorG;
+      uniform float uIorC;
+      uniform float uIorB;
+      uniform float uIorP;
+      uniform float uRefractPower;
+      uniform float uChromatic;
+      uniform float uSaturation;
+      uniform float uShininess;
+      uniform float uDiffuseness;
+      uniform float uFresnelPower;
+      uniform vec3 uLight;
+      uniform float uBackside;
+      varying vec3 vNormal;
+      varying vec3 vEye;
+
+      float specular(vec3 light, vec3 normalDirection, vec3 eyeDirection, float shininess, float diffuseness) {
+        vec3 lightVec = normalize(-light);
+        vec3 viewVec = -eyeDirection;
+        vec3 halfVec = normalize(lightVec + viewVec);
+        return pow(max(dot(normalDirection, halfVec), 0.0), shininess)
+          + max(0.0, dot(normalDirection, lightVec)) * diffuseness;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / uResolution;
+        vec3 n = normalize(vNormal);
+        if (uBackside > 0.5) n = -n;
+        vec3 eye = normalize(vEye);
+        vec3 refrR = refract(eye, n, 1.0 / uIorR);
+        vec3 refrY = refract(eye, n, 1.0 / uIorY);
+        vec3 refrG = refract(eye, n, 1.0 / uIorG);
+        vec3 refrC = refract(eye, n, 1.0 / uIorC);
+        vec3 refrB = refract(eye, n, 1.0 / uIorB);
+        vec3 refrP = refract(eye, n, 1.0 / uIorP);
+        vec3 color = vec3(0.0);
+        const int LOOP = 16;
+        for (int i = 0; i < LOOP; i++) {
+          float slide = float(i) / float(LOOP) * 0.045;
+          vec3 texR = texture2D(uTexture, uv + refrR.xy * (uRefractPower + slide) * uChromatic).rgb;
+          vec3 texY = texture2D(uTexture, uv + refrY.xy * (uRefractPower + slide) * uChromatic).rgb;
+          vec3 texG = texture2D(uTexture, uv + refrG.xy * (uRefractPower + slide * 2.0) * uChromatic).rgb;
+          vec3 texC = texture2D(uTexture, uv + refrC.xy * (uRefractPower + slide * 2.5) * uChromatic).rgb;
+          vec3 texB = texture2D(uTexture, uv + refrB.xy * (uRefractPower + slide * 3.0) * uChromatic).rgb;
+          vec3 texP = texture2D(uTexture, uv + refrP.xy * (uRefractPower + slide) * uChromatic).rgb;
+          float r = texR.x * 0.5;
+          float y = (texY.x * 2.0 + texY.y * 2.0 - texY.z) / 6.0;
+          float g = texG.y * 0.5;
+          float c = (texC.y * 2.0 + texC.z * 2.0 - texC.x) / 6.0;
+          float b = texB.z * 0.5;
+          float p = (texP.z * 2.0 + texP.x * 2.0 - texP.y) / 6.0;
+          float R = r + (2.0 * p + 2.0 * y - c) / 3.0;
+          float G = g + (2.0 * y + 2.0 * c - p) / 3.0;
+          float B = b + (2.0 * c + 2.0 * p - y) / 3.0;
+          color += vec3(R, G, B);
+        }
+        color /= float(LOOP);
+        float luma = dot(color, vec3(0.2125, 0.7154, 0.0721));
+        color = mix(vec3(luma), color, uSaturation);
+        float spec = specular(uLight, n, eye, uShininess, uDiffuseness)
+          + 0.6 * specular(vec3(1.0, 1.0, -1.0), n, eye, uShininess * 0.6, uDiffuseness * 0.5);
+        color += spec * (uBackside > 0.5 ? 0.35 : 1.0);
+        float f = pow(1.0 + dot(eye, n), uFresnelPower);
+        color = mix(color, vec3(1.0), f * (uBackside > 0.5 ? 0.25 : 0.55));
+        color += vec3(0.004, 0.005, 0.007);
+        gl_FragColor = vec4(color, 1.0);
+        #include <colorspace_fragment>
+      }
+    `;
+    function makeGlassMaterial(backside) {
+      return new THREE.ShaderMaterial({
+        uniforms:{
+          uTexture:{ value:backside ? rtBack.texture : rtFront.texture },
+          uResolution:{ value:resolution },
+          uIorR:{ value:1.15 }, uIorY:{ value:1.16 }, uIorG:{ value:1.18 },
+          uIorC:{ value:1.22 }, uIorB:{ value:1.22 }, uIorP:{ value:1.22 },
+          uRefractPower:{ value:backside ? 0.22 : 0.30 },
+          uChromatic:{ value:0.5 }, uSaturation:{ value:1.08 },
+          uShininess:{ value:90 }, uDiffuseness:{ value:0.02 },
+          uFresnelPower:{ value:5.0 }, uLight:{ value:new THREE.Vector3(-1, 1, 1) },
+          uBackside:{ value:backside ? 1 : 0 }
+        },
+        vertexShader:glassVertex,
+        fragmentShader:glassFragment,
+        side:backside ? THREE.BackSide : THREE.FrontSide
+      });
+    }
+    const backMat = makeGlassMaterial(true);
+    const frontMat = makeGlassMaterial(false);
+    const cube = new THREE.Mesh(new RoundedBoxGeometry(1, 1, 1, 8, 0.12), frontMat);
+    spinner.add(cube);
+    canvas.dataset.modelState = 'loading';
+
+    let viewportWidth = 1;
+    let viewportHeight = 1;
+    let fontsReady = false;
+    let started = false;
+    let disposed = false;
+    let inView = true;
+    let frameHandle = 0;
+    let previousFrameTime = 0;
+    let frameCount = 0;
+    const drawSize = new THREE.Vector2();
+
+    function drawHeadline() {
+      const W = viewportWidth;
+      const H = viewportHeight;
+      if (headlineCanvas.width !== drawSize.x || headlineCanvas.height !== drawSize.y) {
+        headlineTexture.dispose();
+        headlineCanvas.width = drawSize.x;
+        headlineCanvas.height = drawSize.y;
+        headlineTexture = new THREE.CanvasTexture(headlineCanvas);
+        headlineTexture.colorSpace = THREE.SRGBColorSpace;
+        headlineTexture.minFilter = THREE.LinearFilter;
+        headlineTexture.magFilter = THREE.LinearFilter;
+        headlineTexture.generateMipmaps = false;
+        bgMaterial.uniforms.uTex.value = headlineTexture;
+      }
+      // Coordinates and font sizes stay in CSS pixels, independently of DPR.
+      headlineContext.setTransform(drawSize.x / W, 0, 0, drawSize.y / H, 0, 0);
+      headlineContext.fillStyle = '#000';
+      headlineContext.fillRect(0, 0, W, H);
+      const mobile = W < 768 || W / H < 1;
+      let fs = Math.min(H * 0.21, W * (mobile ? 0.21 : 0.118));
+      headlineContext.font = `800 ${fs}px Poppins`;
+      const lines = ['Explore', 'New', 'Ideas'];
+      const widest = Math.max(...lines.map(line => headlineContext.measureText(line).width));
+      const maxWidth = W * (mobile ? 0.9 : 0.5);
+      if (widest > maxWidth) fs *= maxWidth / widest;
+      headlineContext.font = `800 ${fs}px Poppins`;
+      headlineContext.fillStyle = '#e9e9e9';
+      headlineContext.textAlign = 'center';
+      headlineContext.textBaseline = 'alphabetic';
+      const cx = W * (mobile ? 0.5 : 0.505);
+      const cy = H * (mobile ? 0.45 : 0.468);
+      const gap = fs * 1.07;
+      const cap = fs * 0.7;
+      lines.forEach((line, i) => headlineContext.fillText(line, cx, cy + cap / 2 + (i - 1) * gap));
+      headlineTexture.needsUpdate = true;
+    }
+
+    function layout() {
+      if (disposed) return;
+      viewportWidth = Math.max(1, hero.clientWidth);
+      viewportHeight = Math.max(1, hero.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(viewportWidth, viewportHeight, false);
+      renderer.getDrawingBufferSize(drawSize);
+      rtBack.setSize(drawSize.x, drawSize.y);
+      rtFront.setSize(drawSize.x, drawSize.y);
+      resolution.copy(drawSize);
+      camera.aspect = viewportWidth / viewportHeight;
+      camera.updateProjectionMatrix();
+      const mobile = viewportWidth < 768 || camera.aspect < 1;
+      const visH = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * 10;
+      const visW = visH * camera.aspect;
+      const sx = mobile ? 0.5 : 0.517;
+      const sy = mobile ? 0.45 : 0.488;
+      pivot.position.set((sx - 0.5) * visW, (0.5 - sy) * visH, 0);
+      const px = Math.min(viewportHeight * 0.44, viewportWidth * (mobile ? 0.45 : 0.29));
+      pivot.scale.setScalar(px / viewportHeight * visH);
+      if (fontsReady) drawHeadline();
+      requestRender();
+    }
+
+    function finishLoading(state) {
+      canvas.dataset.modelState = state;
+      loaderElement.classList.add('done');
+      loaderElement.setAttribute('aria-hidden', 'true');
+      layout();
+    }
+
+    new GLTFLoader().load(MODEL_URL, gltf => {
+      if (disposed) return;
+      const parts = [];
+      let merged = null;
+      try {
+        gltf.scene.updateMatrixWorld(true);
+        gltf.scene.traverse(mesh => {
+          if (!mesh.isMesh || !mesh.geometry?.getAttribute('position')) return;
+          let geometry = mesh.geometry.clone();
+          geometry.deleteAttribute('uv');
+          geometry.deleteAttribute('color');
+          geometry.deleteAttribute('tangent');
+          // Static glass needs position and normal only; keeping identical
+          // attributes lets indexed and non-indexed GLTF parts merge safely.
+          for (const attribute of Object.keys(geometry.attributes)) {
+            if (attribute !== 'position' && attribute !== 'normal') geometry.deleteAttribute(attribute);
+          }
+          const welded = mergeVertices(geometry, 1e-4);
+          geometry.dispose();
+          geometry = welded;
+          geometry.computeVertexNormals();
+          geometry.applyMatrix4(mesh.matrixWorld);
+          parts.push(geometry);
+        });
+        if (!parts.length) throw new Error('Model has no usable mesh geometry.');
+        merged = mergeGeometries(parts, false);
+        if (!merged) throw new Error('Model mesh geometries could not be merged.');
+        merged.computeBoundingBox();
+        const center = merged.boundingBox.getCenter(new THREE.Vector3());
+        const size = merged.boundingBox.getSize(new THREE.Vector3());
+        const largest = Math.max(size.x, size.y, size.z);
+        if (!Number.isFinite(largest) || largest <= 0) throw new Error('Model bounds are empty.');
+        merged.translate(-center.x, -center.y, -center.z);
+        merged.scale(1 / largest, 1 / largest, 1 / largest);
+        merged.computeBoundingSphere();
+        cube.geometry.dispose();
+        cube.geometry = merged;
+        merged = null;
+        finishLoading('ready');
+      } catch (error) {
+        console.error('Design World model:', error);
+        if (merged) merged.dispose();
+        finishLoading('fallback');
+      } finally {
+        parts.forEach(geometry => geometry.dispose());
+        gltf.scene.traverse(mesh => {
+          if (!mesh.isMesh) return;
+          mesh.geometry?.dispose();
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach(material => material?.dispose());
+        });
+      }
+    }, undefined, error => {
+      if (disposed) return;
+      console.error('Design World model:', error);
+      finishLoading('fallback');
+    });
+
+    const axisX = new THREE.Vector3(1, 0, 0);
+    const axisY = new THREE.Vector3(0, 1, 0);
+    const rotationStep = new THREE.Quaternion();
+    const velocity = new THREE.Vector2();
+    let dragging = false;
+    let activePointer = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    let pointerTime = 0;
+    let releaseTime = -Infinity;
+    let spinRemaining = 0;
+
+    function rotateWorld(dx, dy) {
+      if (dx) spinner.quaternion.premultiply(rotationStep.setFromAxisAngle(axisY, dx));
+      if (dy) spinner.quaternion.premultiply(rotationStep.setFromAxisAngle(axisX, dy));
+      spinner.quaternion.normalize();
+    }
+
+    canvas.addEventListener('pointerdown', event => {
+      if (activePointer !== null || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      activePointer = event.pointerId;
+      dragging = true;
+      spinRemaining = 0;
+      velocity.set(0, 0);
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      pointerTime = performance.now();
+      canvas.classList.add('dragging');
+      canvas.setPointerCapture(event.pointerId);
+      requestRender();
+    });
+    canvas.addEventListener('pointermove', event => {
+      if (!dragging || event.pointerId !== activePointer) return;
+      const now = performance.now();
+      const dx = (event.clientX - pointerX) * 0.008;
+      const dy = (event.clientY - pointerY) * 0.008;
+      rotateWorld(dx, dy);
+      const frameFraction = Math.max(1, now - pointerTime) / (1000 / 60);
+      velocity.set(dx / frameFraction, dy / frameFraction);
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      pointerTime = now;
+      requestRender();
+    });
+    function endDrag(event) {
+      if (event.pointerId !== activePointer) return;
+      if (event.type === 'pointercancel' || !motionAllowed() || performance.now() - pointerTime > 100) velocity.set(0, 0);
+      const pointerId = activePointer;
+      activePointer = null;
+      dragging = false;
+      releaseTime = performance.now() / 1000;
+      canvas.classList.remove('dragging');
+      if (canvas.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId);
+      requestRender();
+    }
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+    canvas.addEventListener('lostpointercapture', endDrag);
+
+    function rotateBy(angle) {
+      velocity.set(0, 0);
+      releaseTime = performance.now() / 1000;
+      if (!motionAllowed()) {
+        spinRemaining = 0;
+        rotateWorld(angle, 0);
+      } else spinRemaining = angle;
+      requestRender();
+    }
+    document.getElementById('prev').addEventListener('click', () => rotateBy(-Math.PI / 2));
+    document.getElementById('next').addEventListener('click', () => rotateBy(Math.PI / 2));
+    canvas.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        rotateBy((event.key === 'ArrowLeft' ? -1 : 1) * Math.PI / 2);
+      }
+    });
+    const dots = [...document.querySelectorAll('.dot')];
+    dots.forEach(dot => dot.addEventListener('click', () => dots.forEach(item => {
+      const active = item === dot;
+      item.classList.toggle('active', active);
+      item.setAttribute('aria-pressed', String(active));
+    })));
+
+    function renderPasses() {
+      renderer.autoClear = true;
+      renderer.setRenderTarget(rtBack);
+      renderer.render(bgScene, bgCamera);
+
+      renderer.setRenderTarget(rtFront);
+      renderer.render(bgScene, bgCamera);
+      renderer.autoClear = false;
+      cube.material = backMat;
+      renderer.render(scene, camera);
+
+      renderer.setRenderTarget(null);
+      renderer.autoClear = true;
+      renderer.render(bgScene, bgCamera);
+      renderer.autoClear = false;
+      renderer.clearDepth();
+      cube.material = frontMat;
+      renderer.render(scene, camera);
+      renderer.autoClear = true;
+      canvas.dataset.frames = String(++frameCount); hero.classList.add("glass-rendered");
+    }
+    function requestRender() {
+      if (!started || disposed || !inView || document.hidden || frameHandle) return;
+      frameHandle = requestAnimationFrame(frame);
+    }
+    function frame(timestamp) {
+      frameHandle = 0;
+      if (disposed || !inView || document.hidden) return;
+      const dt = Math.min(previousFrameTime ? (timestamp - previousFrameTime) / 1000 : 1 / 60, 0.05);
+      previousFrameTime = timestamp;
+      const frameScale = dt * 60;
+      const now = timestamp / 1000;
+      if (!dragging && motionAllowed()) {
+        if (Math.abs(spinRemaining) >= 0.0005) {
+          const step = spinRemaining * Math.min(1, 0.09 * frameScale);
+          rotateWorld(step, 0);
+          spinRemaining -= step;
+          if (Math.abs(spinRemaining) < 0.0005) {
+            rotateWorld(spinRemaining, 0);
+            spinRemaining = 0;
+            releaseTime = now;
+          }
+        } else {
+          rotateWorld(velocity.x * frameScale, velocity.y * frameScale);
+          velocity.multiplyScalar(Math.pow(0.94, frameScale));
+          const blend = THREE.MathUtils.clamp((now - releaseTime - 0.6) / 1.0, 0, 1);
+          rotateWorld(0.0035 * frameScale * blend, 0.0012 * frameScale * blend);
+        }
+      }
+      renderPasses();
+      if (motionAllowed()) requestRender();
+    }
+
+    const resizeObserver = new ResizeObserver(layout);
+    resizeObserver.observe(hero);
+    window.addEventListener('resize', layout);
+    function onVisibilityChange() {
+      previousFrameTime = 0;
+      requestRender();
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    const intersectionObserver = new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting;
+      previousFrameTime = 0;
+      requestRender();
+    });
+    intersectionObserver.observe(hero);
+    function onMotionChange(event) {
+      if (event.type === 'portfolio-motion-change' && typeof event.detail?.enabled === 'boolean') {
+        hostControlsMotion = true;
+        motionEnabled = event.detail.enabled;
+      } else if (!hostControlsMotion) motionEnabled = !reducedMotion.matches;
+      velocity.set(0, 0);
+      if (!motionAllowed() && spinRemaining) {
+        rotateWorld(spinRemaining, 0);
+        spinRemaining = 0;
+      }
+      previousFrameTime = 0;
+      requestRender();
+    }
+    reducedMotion.addEventListener('change', onMotionChange);
+    window.addEventListener('portfolio-motion-change', onMotionChange);
+    function onFontsLoaded() {
+      if (!fontsReady || disposed) return;
+      drawHeadline();
+      requestRender();
+    }
+    document.fonts?.addEventListener('loadingdone', onFontsLoaded);
+
+    // A small API helps a host page resize or dispose this self-contained hero.
+    window.DesignWorldHero = {
+      rotateBy,
+      resize:layout,
+      getState:() => ({ model:canvas.dataset.modelState, frames:frameCount, dragging, motionEnabled, reducedMotion:reducedMotion.matches, quaternion:spinner.quaternion.toArray(), resolution:resolution.toArray() }),
+      dispose() {
+        if (disposed) return;
+        disposed = true;
+        cancelAnimationFrame(frameHandle);
+        resizeObserver.disconnect();
+        intersectionObserver.disconnect();
+        window.removeEventListener('resize', layout);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        document.fonts?.removeEventListener('loadingdone', onFontsLoaded);
+        reducedMotion.removeEventListener('change', onMotionChange);
+        window.removeEventListener('portfolio-motion-change', onMotionChange);
+        cube.geometry.dispose();
+        background.geometry.dispose();
+        backMat.dispose();
+        frontMat.dispose();
+        bgMaterial.dispose();
+        headlineTexture.dispose();
+        rtBack.dispose();
+        rtFront.dispose();
+        renderer.dispose();
+      }
+    };
+    const fontWait = document.fonts
+      ? Promise.all([document.fonts.load('800 100px Poppins'), document.fonts.ready])
+      : Promise.resolve();
+    await Promise.race([fontWait.catch(() => {}), new Promise(resolve => setTimeout(resolve, 2500))]);
+    fontsReady = true;
+    layout();
+    started = true;
+    requestRender();
+  
+} catch { document.querySelector("#loader")?.classList.add("done");document.querySelectorAll("#hero .arrow").forEach(button=>button.disabled=true); }
+</script>
+<script type="module">/*
+React Bits Electric Logo — vanilla lifecycle adaptation for ZH's website.
+Original author: David Haz; upstream commit ca44b3f9ee180676a06d7de8ec6bea84cddff85b.
+https://github.com/DavidHDev/react-bits/blob/ca44b3f9ee180676a06d7de8ec6bea84cddff85b/src/content/Animations/ElectricLogo/ElectricLogo.jsx
+Signed-distance tracing, electric strand/arc shaders and interaction formulas
+are preserved. React hooks are replaced with a single DOM mount and lifecycle.
+
+MIT + Commons Clause License Condition v1.0
+
+Copyright (c) 2026 David Haz
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, and distribute the Software **as part of an application, website, or product**, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+## Commons Clause Restriction
+
+You may use this Software, including for any commercial purpose, **so long as you do not sell, sublicense, or redistribute the components themselves-whether alone, in a bundle, or as a ported version.**
+
+## No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+// Inline this snippet in its own <script type="module"> in the site HTML.
+(async () => {
+const BOLT = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"380\" height=\"240\" viewBox=\"0 0 380 240\"><path fill=\"#fff\" d=\"M35 45h143v28l-95 94h98v28H33v-27l96-95H35zm180 0h29v60h64V45h29v150h-29v-61h-64v61h-29z\"/></svg>");
+const RASTER = 560;
+const CELL = 4;
+const FAR = 1e20;
+const ARCS = 5;
+const PULSES = 3;
+const PIXEL_BUDGET = 4e6;
+
+const hexToRgb = hex => {
+  let h = String(hex || '').replace('#', '');
+  if (h.length === 3) h = h.replace(/./g, c => c + c);
+  const n = parseInt(h.slice(0, 6), 16);
+  return Number.isNaN(n) ? [1, 1, 1] : [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+};
+
+const transformLine = (f, d, v, z, n) => {
+  let k = 0;
+  v[0] = 0;
+  z[0] = -FAR;
+  z[1] = FAR;
+  for (let q = 1; q < n; q++) {
+    let s = (f[q] + q * q - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]);
+    while (s <= z[k]) {
+      k--;
+      s = (f[q] + q * q - (f[v[k]] + v[k] * v[k])) / (2 * q - 2 * v[k]);
+    }
+    k++;
+    v[k] = q;
+    z[k] = s;
+    z[k + 1] = FAR;
+  }
+  k = 0;
+  for (let q = 0; q < n; q++) {
+    while (z[k + 1] < q) k++;
+    d[q] = (q - v[k]) * (q - v[k]) + f[v[k]];
+  }
+};
+
+const transformGrid = (grid, w, h) => {
+  const n = Math.max(w, h);
+  const f = new Float64Array(n);
+  const d = new Float64Array(n);
+  const v = new Int32Array(n);
+  const z = new Float64Array(n + 1);
+  for (let x = 0; x < w; x++) {
+    for (let y = 0; y < h; y++) f[y] = grid[y * w + x];
+    transformLine(f, d, v, z, h);
+    for (let y = 0; y < h; y++) grid[y * w + x] = d[y];
+  }
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) f[x] = grid[y * w + x];
+    transformLine(f, d, v, z, w);
+    for (let x = 0; x < w; x++) grid[y * w + x] = d[x];
+  }
+};
+
+const blurLine = (src, dst, offset, stride, n, r) => {
+  const scale = 1 / (2 * r + 1);
+  let sum = 0;
+  for (let i = 0; i <= r && i < n; i++) sum += src[offset + i * stride];
+  for (let i = 0; i < n; i++) {
+    dst[offset + i * stride] = sum * scale;
+    if (i + r + 1 < n) sum += src[offset + (i + r + 1) * stride];
+    if (i - r >= 0) sum -= src[offset + (i - r) * stride];
+  }
+};
+
+const blurGrid = (grid, w, h, r) => {
+  const tmp = new Float32Array(w * h);
+  for (let pass = 0; pass < 3; pass++) {
+    for (let y = 0; y < h; y++) blurLine(grid, tmp, y * w, 1, w, r);
+    for (let x = 0; x < w; x++) blurLine(tmp, grid, x, w, h, r);
+  }
+};
+
+const readCoverage = (data, w, h) => {
+  const coverage = new Float32Array(w * h);
+  let clear = 0;
+  for (let i = 0; i < w * h; i++) if (data[i * 4 + 3] < 250) clear++;
+  if (clear > w * h * 0.01) {
+    for (let i = 0; i < w * h; i++) coverage[i] = data[i * 4 + 3] / 255;
+    return coverage;
+  }
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  let n = 0;
+  const sample = i => {
+    r += data[i * 4];
+    g += data[i * 4 + 1];
+    b += data[i * 4 + 2];
+    n++;
+  };
+  for (let x = 0; x < w; x++) {
+    sample(x);
+    sample((h - 1) * w + x);
+  }
+  for (let y = 0; y < h; y++) {
+    sample(y * w);
+    sample(y * w + w - 1);
+  }
+  r /= n;
+  g /= n;
+  b /= n;
+  for (let i = 0; i < w * h; i++) {
+    const diff = Math.max(Math.abs(data[i * 4] - r), Math.abs(data[i * 4 + 1] - g), Math.abs(data[i * 4 + 2] - b));
+    coverage[i] = Math.min(1, Math.max(0, (diff - 24) / 48));
+  }
+  return coverage;
+};
+
+const sampleField = (shape, x, y) => {
+  const { field, width, height } = shape;
+  const cx = Math.min(Math.max(x, 0.5), width - 0.5);
+  const cy = Math.min(Math.max(y, 0.5), height - 0.5);
+  const x0 = Math.min(Math.floor(cx - 0.5), width - 2);
+  const y0 = Math.min(Math.floor(cy - 0.5), height - 2);
+  const tx = cx - 0.5 - x0;
+  const ty = cy - 0.5 - y0;
+  const i = y0 * width + x0;
+  const top = field[i] + (field[i + 1] - field[i]) * tx;
+  const bottom = field[i + width] + (field[i + width + 1] - field[i + width]) * tx;
+  return top + (bottom - top) * ty + Math.hypot(x - cx, y - cy);
+};
+
+const traceShape = image => {
+  const iw = image.naturalWidth || image.width;
+  const ih = image.naturalHeight || image.height;
+  if (!iw || !ih) return null;
+  const fit = RASTER / Math.max(iw, ih);
+  const w = Math.max(2, Math.round(iw * fit));
+  const h = Math.max(2, Math.round(ih * fit));
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  if (!ctx) return null;
+  ctx.drawImage(image, 0, 0, w, h);
+  const coverage = readCoverage(ctx.getImageData(0, 0, w, h).data, w, h);
+
+  let left = w;
+  let top = h;
+  let right = -1;
+  let bottom = -1;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (coverage[y * w + x] <= 0.01) continue;
+      if (x < left) left = x;
+      if (x > right) right = x;
+      if (y < top) top = y;
+      if (y > bottom) bottom = y;
+    }
+  }
+  if (right < 0) return null;
+
+  const logoWidth = right - left + 1;
+  const logoHeight = bottom - top + 1;
+  const pad = Math.ceil(Math.max(logoWidth, logoHeight) * 0.25) + 2;
+  const width = logoWidth + pad * 2;
+  const height = logoHeight + pad * 2;
+  const outer = new Float32Array(width * height);
+  const inner = new Float32Array(width * height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const sx = x - pad + left;
+      const sy = y - pad + top;
+      const a = sx >= 0 && sy >= 0 && sx < w && sy < h ? coverage[sy * w + sx] : 0;
+      const i = y * width + x;
+      if (a >= 1) {
+        outer[i] = 0;
+        inner[i] = FAR;
+      } else if (a <= 0) {
+        outer[i] = FAR;
+        inner[i] = 0;
+      } else {
+        const e = 0.5 - a;
+        outer[i] = e > 0 ? e * e : 0;
+        inner[i] = e < 0 ? e * e : 0;
+      }
+    }
+  }
+  transformGrid(outer, width, height);
+  transformGrid(inner, width, height);
+
+  const field = new Float32Array(width * height);
+  for (let i = 0; i < width * height; i++) field[i] = Math.sqrt(outer[i]) - Math.sqrt(inner[i]);
+
+  const points = [];
+  for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+      const i = y * width + x;
+      const d = field[i];
+      if (d > 0) continue;
+      if (field[i - 1] <= 0 && field[i + 1] <= 0 && field[i - width] <= 0 && field[i + width] <= 0) continue;
+      const gx = field[i + 1] - field[i - 1];
+      const gy = field[i + width] - field[i - width];
+      const len = Math.hypot(gx, gy) || 1;
+      points.push(x + 0.5 - (d * gx) / len, y + 0.5 - (d * gy) / len);
+    }
+  }
+  const stride = Math.max(1, Math.ceil(points.length / 2 / 3000)) * 2;
+  const edges = [];
+  for (let i = 0; i < points.length; i += stride) edges.push(points[i], points[i + 1]);
+
+  const size = Math.max(logoWidth, logoHeight);
+  const glowPad = Math.ceil((size * 0.7) / CELL);
+  const glowWidth = Math.ceil(logoWidth / CELL) + glowPad * 2;
+  const glowHeight = Math.ceil(logoHeight / CELL) + glowPad * 2;
+  const tight = new Float32Array(glowWidth * glowHeight);
+  for (let y = 0; y < height; y++) {
+    const gy = Math.floor((y - pad) / CELL) + glowPad;
+    for (let x = 0; x < width; x++) {
+      const gx = Math.floor((x - pad) / CELL) + glowPad;
+      tight[gy * glowWidth + gx] += Math.exp(-Math.abs(field[y * width + x]) / 1.5) / (CELL * CELL);
+    }
+  }
+  const wide = tight.slice();
+  const tightRadius = Math.max(1, Math.round((size * 0.035) / CELL));
+  const wideRadius = Math.max(2, Math.round((size * 0.13) / CELL));
+  blurGrid(tight, glowWidth, glowHeight, tightRadius);
+  blurGrid(wide, glowWidth, glowHeight, wideRadius);
+  const tightNorm = (Math.sqrt(2 * Math.PI * (tightRadius * tightRadius + tightRadius)) * CELL) / 3;
+  const wideNorm = (Math.sqrt(2 * Math.PI * (wideRadius * wideRadius + wideRadius)) * CELL) / 3;
+  const glow = new Float32Array(glowWidth * glowHeight * 2);
+  for (let i = 0; i < glowWidth * glowHeight; i++) {
+    glow[i * 2] = tight[i] * tightNorm;
+    glow[i * 2 + 1] = wide[i] * wideNorm;
+  }
+
+  return {
+    field,
+    edges,
+    width,
+    height,
+    pad,
+    logoWidth,
+    logoHeight,
+    glow,
+    glowWidth,
+    glowHeight,
+    glowOffset: pad - glowPad * CELL
+  };
+};
+
+const spawnArc = (shape, time, focus) => {
+  const { edges, logoWidth, logoHeight } = shape;
+  const count = edges.length / 2;
+  if (count < 2) return null;
+  const size = Math.max(logoWidth, logoHeight);
+  let i = Math.floor(Math.random() * count);
+  if (focus) {
+    let found = false;
+    for (let attempt = 0; attempt < 40 && !found; attempt++) {
+      const j = Math.floor(Math.random() * count);
+      if (Math.hypot(edges[j * 2] - focus.x, edges[j * 2 + 1] - focus.y) < focus.radius) {
+        i = j;
+        found = true;
+      }
+    }
+    if (!found) return null;
+  }
+  const ax = edges[i * 2];
+  const ay = edges[i * 2 + 1];
+  for (let attempt = 0; attempt < 24; attempt++) {
+    const j = Math.floor(Math.random() * count);
+    const bx = edges[j * 2];
+    const by = edges[j * 2 + 1];
+    const len = Math.hypot(bx - ax, by - ay);
+    if (len < size * 0.08 || len > size * 0.3) continue;
+    const nx = -(by - ay) / len;
+    const ny = (bx - ax) / len;
+    const bow = len * (0.2 + Math.random() * 0.3);
+    const mx = (ax + bx) / 2;
+    const my = (ay + by) / 2;
+    const left = sampleField(shape, mx + nx * bow, my + ny * bow);
+    const right = sampleField(shape, mx - nx * bow, my - ny * bow);
+    if (Math.max(left, right) <= 0) continue;
+    return {
+      ax,
+      ay,
+      bx,
+      by,
+      bow: left >= right ? bow : -bow,
+      seed: 1 + Math.random() * 60,
+      born: time,
+      life: 0.35 + Math.random() * 0.45
+    };
+  }
+  return null;
+};
+
+const vertex = `#version 300 es
+in vec2 position;
+in vec2 uv;
+out vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = vec4(position, 0.0, 1.0);
+}
+`;
+
+const fragment = `#version 300 es
+precision highp float;
+precision highp int;
+
+uniform sampler2D tFieldFrom;
+uniform sampler2D tGlowFrom;
+uniform sampler2D tFieldTo;
+uniform sampler2D tGlowTo;
+uniform vec4 uMapFrom;
+uniform vec4 uSizeFrom;
+uniform vec4 uMapTo;
+uniform vec4 uSizeTo;
+uniform float uMorph;
+uniform vec2 uResolution;
+uniform float uUnit;
+uniform float uTime;
+uniform float uPresence;
+uniform vec3 uHover;
+uniform float uHoverRadius;
+uniform vec4 uPulses[${PULSES}];
+uniform float uPulseBoost;
+uniform float uFlash;
+uniform vec3 uColor;
+uniform vec3 uGlowColor;
+uniform float uIntensity;
+uniform float uGlow;
+uniform float uThickness;
+uniform float uStrands;
+uniform float uBend;
+uniform float uCrackle;
+uniform float uFlicker;
+uniform float uFill;
+uniform float uInk;
+uniform vec4 uArcEnds[${ARCS}];
+uniform vec4 uArcShape[${ARCS}];
+
+in vec2 vUv;
+out vec4 fragColor;
+
+uint scramble(uint x) {
+  x ^= x >> 16u;
+  x *= 0x7feb352du;
+  x ^= x >> 15u;
+  x *= 0x846ca68bu;
+  x ^= x >> 16u;
+  return x;
+}
+
+float fieldAt(sampler2D tex, vec4 map, vec4 size, vec2 p) {
+  vec2 f = (p - map.xy) / map.z;
+  vec2 c = clamp(f, vec2(0.5), size.xy - 0.5);
+  return (textureLod(tex, c / size.xy, 0.0).r + length(f - c)) * map.z;
+}
+
+vec2 glowAt(sampler2D tex, vec4 map, vec4 size, vec2 p) {
+  vec2 f = (p - map.xy) / map.z - map.w;
+  return textureLod(tex, f / (size.zw * ${CELL}.0), 0.0).rg;
+}
+
+float shape(vec2 p, float k) {
+  float to = fieldAt(tFieldTo, uMapTo, uSizeTo, p);
+  if (k >= 1.0) return to;
+  return mix(fieldAt(tFieldFrom, uMapFrom, uSizeFrom, p), to, k);
+}
+
+vec2 aura(vec2 p, float k) {
+  vec2 to = glowAt(tGlowTo, uMapTo, uSizeTo, p);
+  if (k >= 1.0) return to;
+  return mix(glowAt(tGlowFrom, uMapFrom, uSizeFrom, p), to, k);
+}
+
+vec4 corner(ivec2 c, uint seed) {
+  uint h = scramble(uint(c.x) * 0x8da6b343u + uint(c.y) * 0xd8163841u + seed * 0xcb1ab31fu);
+  return vec4(uvec4(h, h >> 8u, h >> 16u, h >> 24u) & 255u) / 127.5 - 1.0;
+}
+
+vec2 drift(vec2 p, uint seed, out mat2 jac) {
+  vec2 i = floor(p);
+  vec2 f = p - i;
+  vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  vec2 du = 30.0 * f * f * (f * (f - 2.0) + 1.0);
+  ivec2 c = ivec2(i);
+  vec4 ga = corner(c, seed);
+  vec4 gb = corner(c + ivec2(1, 0), seed);
+  vec4 gc = corner(c + ivec2(0, 1), seed);
+  vec4 gd = corner(c + ivec2(1, 1), seed);
+  vec2 fb = f - vec2(1.0, 0.0);
+  vec2 fc = f - vec2(0.0, 1.0);
+  vec2 fd = f - vec2(1.0);
+  vec2 va = vec2(dot(ga.xy, f), dot(ga.zw, f));
+  vec2 vb = vec2(dot(gb.xy, fb), dot(gb.zw, fb));
+  vec2 vc = vec2(dot(gc.xy, fc), dot(gc.zw, fc));
+  vec2 vd = vec2(dot(gd.xy, fd), dot(gd.zw, fd));
+  vec2 k = va - vb - vc + vd;
+  vec4 g = ga + u.x * (gb - ga) + u.y * (gc - ga) + u.x * u.y * (ga - gb - gc + gd);
+  jac = mat2(
+    g.xy + du * (u.yx * k.x + vec2(vb.x - va.x, vc.x - va.x)),
+    g.zw + du * (u.yx * k.y + vec2(vb.y - va.y, vc.y - va.y))
+  );
+  return va + u.x * (vb - va) + u.y * (vc - va) + u.x * u.y * k;
+}
+
+float wobble(vec2 p, uint seed) {
+  mat2 jac;
+  return drift(p, seed, jac).x;
+}
+
+vec2 ripple(vec2 p, out float surge) {
+  vec2 push = vec2(0.0);
+  surge = 0.0;
+  float width = uUnit * 10.0;
+  for (int i = 0; i < ${PULSES}; i++) {
+    vec4 pulse = uPulses[i];
+    if (pulse.w <= 0.0) continue;
+    vec2 d = p - pulse.xy;
+    float dist = length(d);
+    float front = (dist - pulse.z * uUnit * 150.0) / width;
+    float env = exp(-front * front) * pulse.w * exp(-pulse.z * 1.7) * smoothstep(0.0, uUnit * 8.0, dist);
+    push += d / max(dist, 1.0) * env * cos(front * 2.2) * uUnit * 7.5;
+    surge += env;
+  }
+  return push;
+}
+
+vec2 wander(vec2 p, float t, uint seed, float reachScale, out mat2 jac, out vec2 sway) {
+  vec2 q = p / uUnit;
+  mat2 ja;
+  mat2 jb;
+  mat2 jc;
+  mat2 jd;
+  vec2 a = drift(q * 0.028 + vec2(t * 0.29, t * 0.21), seed, ja);
+  vec2 b = drift(q * 0.085 + a * 0.4 + vec2(t * 0.83, -t * 0.61) + 17.0, seed + 1u, jb);
+  vec2 c = drift(p / 9.0 + b * 0.6 + vec2(t * 1.9, t * 1.3) + 5.0, seed + 2u, jc);
+  vec2 d = drift(p / 4.1 + vec2(-t * 2.7, t * 2.2) + 11.0, seed + 3u, jd);
+  float bendAmp = uBend * 8.0 * reachScale;
+  float rippleAmp = uBend * 3.2 * reachScale;
+  float crinkleAmp = uCrackle * 1.5 * reachScale;
+  jac = ja * (0.028 * bendAmp) + jb * (0.085 * rippleAmp) + jc * (crinkleAmp / 9.0) + jd * (crinkleAmp * 0.35 / 4.1);
+  sway = (a * bendAmp + b * rippleAmp) * uUnit;
+  return sway + (c + d * 0.35) * crinkleAmp;
+}
+
+vec2 glowShape(float line, float spread, float w) {
+  float x = abs(line);
+  float y = abs(spread);
+  return vec2(exp(-x * x / (w * w * 0.5)) + exp(-y / (w * 2.2)) * 0.6, exp(-y / (w * 4.5)) * 0.5);
+}
+
+void addArc(vec2 p, vec4 ends, vec4 info, float t, inout vec3 light, inout float energy, inout float hot) {
+  if (info.y < 0.002) return;
+  vec2 ab = ends.zw - ends.xy;
+  float len = max(length(ab), 1.0);
+  vec2 dir = ab / len;
+  vec2 rel = p - ends.xy;
+  float s = dot(rel, dir);
+  float h = dot(rel, vec2(-dir.y, dir.x));
+  float margin = abs(info.x) + uCrackle * (2.0 + len * 0.08) + uThickness * 12.0 + 10.0;
+  if (s < -margin || s > len + margin || abs(h) > margin) return;
+  float u = clamp(s / len, 0.0, 1.0);
+  float taper = sin(3.14159265 * u);
+  float bendSlope = s > 0.0 && s < len ? 3.14159265 / len * cos(3.14159265 * u) : 0.0;
+  float beyond = max(-s, 0.0) + max(s - len, 0.0);
+  for (int c = 0; c < 2; c++) {
+    uint seed = uint(info.z * 131.0) + uint(c) * 29u + 7u;
+    float jag = 0.0;
+    float jagSlope = 0.0;
+    float wave = max(len * 0.3, 14.0);
+    float weight = uCrackle * (1.5 + len * 0.05) * (c == 0 ? 1.0 : 1.5);
+    for (int o = 0; o < 3; o++) {
+      mat2 jac;
+      float n = drift(vec2(s / wave + info.z * 3.0, t * (1.4 + float(o) * 1.1)), seed + uint(o), jac).x;
+      jag += n * weight;
+      jagSlope += jac[0].x * weight / wave;
+      wave *= 0.42;
+      weight *= 0.4;
+    }
+    float offset = (info.x + jag) * taper;
+    float offsetSlope = (info.x + jag) * bendSlope + jagSlope * taper;
+    float across = (h - offset) / sqrt(1.0 + offsetSlope * offsetSlope);
+    float gap = length(vec2(beyond, across));
+    float w = uThickness * (c == 0 ? 0.9 : 0.6);
+    vec2 g = glowShape(gap, gap, w);
+    float k = info.y * (c == 0 ? 1.0 : 0.45);
+    light += (uColor * g.x + uGlowColor * g.y * uGlow) * k;
+    energy += (g.x + g.y * uGlow) * k;
+    hot += exp(-gap * gap / (w * w * 0.16)) * k * (c == 0 ? 1.0 : 0.0);
+  }
+}
+
+void main() {
+  vec2 p = vec2(vUv.x, 1.0 - vUv.y) * uResolution;
+  float t = uTime;
+  vec3 light = vec3(0.0);
+  float energy = 0.0;
+  float hot = 0.0;
+
+  float surge;
+  vec2 pr = p - ripple(p, surge);
+  float k = uMorph >= 1.0 ? 1.0 : smoothstep(0.0, 1.0, clamp(uMorph * 1.7 - 0.35 + 0.35 * wobble(p / uUnit * 0.018, 41u), 0.0, 1.0));
+  float transit = uMorph >= 1.0 ? 0.0 : sin(3.14159265 * uMorph);
+  float base = shape(pr, k);
+
+  vec2 toHover = p - uHover.xy;
+  float heat = min(uHover.z * exp(-dot(toHover, toHover) / (uHoverRadius * uHoverRadius)) + surge * 1.4 + transit * 0.5, 2.0);
+  float heatCap = min(uHover.z + uPulseBoost * 1.4 + transit * 0.5, 2.0);
+  float breath = 1.0 + uFlicker * 0.6 * wobble(vec2(t * 2.1, 7.0), 3u);
+  float grow = uPresence;
+
+  float edge = abs(base);
+  vec2 halo = aura(pr, k);
+  float ink = uInk;
+  float bloom = (halo.x * 0.16 + halo.y * 0.08) * (1.0 - ink * 0.65) * uGlow * (1.0 + heat * 1.2);
+  float body = smoothstep(0.75, -0.75, base) * uFill * (0.06 + 1.2 * min(halo.x, 1.0)) * (1.0 + heat * 0.5);
+  light += uGlowColor * bloom * grow * grow;
+  energy += bloom * grow * grow;
+
+  float reachScale = mix(0.15, 1.0, grow) * (1.0 + heat * 0.9);
+  float reach = (uUnit * uBend * 16.0 + uCrackle * 3.0) * (1.0 + heatCap * 0.9) + uThickness * 20.0 + 8.0;
+  if (edge < reach && grow > 0.0) {
+    float fade = smoothstep(reach, reach * 0.55, edge);
+    vec2 q = pr / uUnit;
+    float count = min(uStrands + heat * 2.5, 6.0);
+    float limit = min(uStrands + heatCap * 2.5, 6.0);
+    for (int i = 0; i < 6; i++) {
+      float fi = float(i);
+      if (fi >= limit) break;
+      float present = clamp(count - fi, 0.0, 1.0);
+      if (present <= 0.0) continue;
+      uint seed = uint(i) * 7u + 3u;
+      mat2 jac;
+      vec2 sway;
+      float lead = i == 0 ? 1.0 : 0.0;
+      vec2 warped = pr + wander(pr, t * (1.0 + fi * 0.19), seed, reachScale * mix(0.6 + fi * 0.2, 0.7, lead), jac, sway);
+      float dw = shape(warped, k);
+      vec2 slope = vec2(shape(warped + vec2(1.0, 0.0), k), shape(warped + vec2(0.0, 1.0), k)) - dw;
+      float d = dw / max(length(slope + jac * slope), 0.3);
+      float spread = shape(pr + sway, k);
+      float swell = 0.5 + 0.5 * wobble(q * 0.06 + vec2(t * 0.9, fi * 5.1 - t * 0.6), seed + 8u);
+      float w = uThickness * mix(0.5, 1.0, lead) * (0.5 + swell);
+      float vis = mix(0.3 + 0.45 * smoothstep(-0.25, 0.2, wobble(q * 0.035 + vec2(t * 0.21, fi * 3.7), seed + 5u)), 1.0, lead);
+      float spark = 1.0 - uFlicker * 0.3 * (0.5 + 0.5 * wobble(vec2(t * 6.0, fi * 2.3), seed + 6u));
+      float weight = max(vis, heat * 0.85) * spark * fade * present * (0.7 + 0.6 * swell);
+      vec2 g = glowShape(d, spread, w) * weight;
+      float soft = mix(1.0, mix(0.5, 1.0, lead), ink);
+      vec3 stroke = mix(uColor, uGlowColor, ink * (1.0 - lead) * 0.65);
+      float haze = uGlow * (1.0 + heat) * (1.0 - ink * 0.7);
+      light += stroke * g.x * soft + uGlowColor * g.y * haze;
+      energy += g.x * soft + g.y * haze;
+      hot += exp(-d * d / (w * w * 0.16)) * lead * weight;
+    }
+    light *= grow;
+    energy *= grow;
+  }
+
+  for (int i = 0; i < ${ARCS}; i++) addArc(pr, uArcEnds[i], uArcShape[i], t, light, energy, hot);
+
+  float gain = uIntensity * breath * (1.0 + heat * 0.45) * (1.0 + uFlash * 0.3) * 1.4;
+  float alpha = 1.0 - exp(-energy * gain);
+  vec3 color = mix(1.0 - exp(-light * gain), alpha * light / max(energy, 1e-4), ink);
+  color = mix(color, vec3(alpha), clamp(hot * grow, 0.0, 1.0) * ink * 0.85);
+  float tint = (1.0 - exp(-body * gain * 1.2)) * grow * grow * (1.0 - ink * 0.82);
+  color += uGlowColor * tint * (1.0 - alpha);
+  alpha += tint * (1.0 - alpha);
+  float grain = (fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715)))) - 0.5) / 255.0;
+  alpha = clamp(alpha + grain, 0.0, 1.0);
+  fragColor = vec4(clamp(color + grain, 0.0, alpha), alpha);
+}
+`;
+
+
+async function mountElectricDecoration() {
+  const container = document.getElementById('electric-decoration');
+  const targetCanvas = document.getElementById('electric-logo');
+  if (!container || !targetCanvas) return null;
+  const fallback = new Image();
+  fallback.className = 'electric-logo-fallback';
+  fallback.alt = '';
+  fallback.setAttribute('aria-hidden', 'true');
+  fallback.src = BOLT;
+  container.appendChild(fallback);
+  container.dataset.electricState = 'loading';
+  let rendererRef;
+  try {
+    const {Renderer, Program, Mesh, Triangle, Texture} = await import('https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm');
+    await fallback.decode();
+    const traced = traceShape(fallback);
+    if (!traced) throw new Error('Logo contour unavailable');
+    const shapeRef = {current: traced};
+    const settingsRef = {current: {
+      color: '#6d1114', glowColor: '#ad6dff', scale: 0.7,
+      intensity: 0.9, glow: 0.6, thickness: 1.5, strands: 6,
+      bend: 0.6, crackle: 1.4, arcs: 1.15, flicker: 0.6,
+      fill: 0, speed: 2.5, interactive: true,
+      cursorIntensity: 0.75, cursorRadius: 100, theme: 'dark'
+    }};
+    const renderer = new Renderer({
+      canvas: targetCanvas,
+      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      alpha: true,
+      premultipliedAlpha: true,
+      antialias: false
+    });
+    rendererRef = renderer;
+    const gl = renderer.gl;
+    if (!renderer.isWebgl2) {
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      container.dataset.electricState = 'fallback';
+      return null;
+    }
+    gl.clearColor(0, 0, 0, 0);
+    const canvas = gl.canvas;
+    canvas.style.display = 'block';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.opacity = '0';
+    container.appendChild(canvas);
+
+    const makeSlot = () => ({
+      shape: null,
+      field: new Texture(gl, {
+        image: new Float32Array([1000]),
+        width: 1,
+        height: 1,
+        internalFormat: gl.R16F,
+        format: gl.RED,
+        type: gl.FLOAT,
+        minFilter: gl.LINEAR,
+        magFilter: gl.LINEAR,
+        generateMipmaps: false,
+        flipY: false,
+        unpackAlignment: 1
+      }),
+      glow: new Texture(gl, {
+        image: new Float32Array([0, 0]),
+        width: 1,
+        height: 1,
+        internalFormat: gl.RG16F,
+        format: gl.RG,
+        type: gl.FLOAT,
+        minFilter: gl.LINEAR,
+        magFilter: gl.LINEAR,
+        generateMipmaps: false,
+        flipY: false,
+        unpackAlignment: 1
+      })
+    });
+    const slots = [makeSlot(), makeSlot()];
+
+    const arcEnds = Array.from({ length: ARCS * 4 }, () => 0);
+    const arcShape = Array.from({ length: ARCS * 4 }, () => 0);
+    const pulseData = Array.from({ length: PULSES * 4 }, () => 0);
+    const uniforms = {
+      tFieldFrom: { value: slots[1].field },
+      tGlowFrom: { value: slots[1].glow },
+      tFieldTo: { value: slots[0].field },
+      tGlowTo: { value: slots[0].glow },
+      uMapFrom: { value: [0, 0, 1, 0] },
+      uSizeFrom: { value: [1, 1, 1, 1] },
+      uMapTo: { value: [0, 0, 1, 0] },
+      uSizeTo: { value: [1, 1, 1, 1] },
+      uMorph: { value: 1 },
+      uResolution: { value: [1, 1] },
+      uUnit: { value: 1 },
+      uTime: { value: 0 },
+      uPresence: { value: 0 },
+      uHover: { value: [0, 0, 0] },
+      uHoverRadius: { value: 120 },
+      uPulses: { value: pulseData },
+      uPulseBoost: { value: 0 },
+      uFlash: { value: 0 },
+      uColor: { value: [1, 1, 1] },
+      uGlowColor: { value: [0.43, 0.48, 1] },
+      uIntensity: { value: 1 },
+      uGlow: { value: 1 },
+      uThickness: { value: 1.8 },
+      uStrands: { value: 3 },
+      uBend: { value: 1 },
+      uCrackle: { value: 1 },
+      uFlicker: { value: 0.4 },
+      uFill: { value: 0.5 },
+      uInk: { value: 0 },
+      uArcEnds: { value: arcEnds },
+      uArcShape: { value: arcShape }
+    };
+    const mesh = new Mesh(gl, {
+      geometry: new Triangle(gl),
+      program: new Program(gl, { vertex, fragment, uniforms, depthTest: false, depthWrite: false })
+    });
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motionButton = document.getElementById('motion-toggle');
+    const pressed = motionButton?.getAttribute('aria-pressed');
+    let enabled = pressed == null ? !motionQuery.matches : pressed === 'true';
+    let manualMotion = false;
+    let contextLost = false;
+    const pointer = { x: 0, y: 0, over: false };
+    const hover = { x: 0, y: 0, vx: 0, vy: 0, power: 0 };
+    const sparks = [];
+    const pulses = [];
+    let target = 0;
+    let pending = null;
+    let morph = 1;
+    let burst = null;
+    let progress = enabled ? 0 : 1;
+    let ink = 0;
+    const hues = [
+      [1, 1, 1],
+      [1, 1, 1]
+    ];
+    let settled = false;
+    let time = 0;
+    let width = 1;
+    let height = 1;
+    let raf = 0;
+    let last = performance.now();
+    let visible = true;
+    const canAnimate = () => enabled && visible && !document.hidden && !contextLost;
+
+    const load = (slot, next) => {
+      slot.shape = next;
+      slot.field.image = next.field;
+      slot.field.width = next.width;
+      slot.field.height = next.height;
+      slot.field.needsUpdate = true;
+      slot.glow.image = next.glow;
+      slot.glow.width = next.glowWidth;
+      slot.glow.height = next.glowHeight;
+      slot.glow.needsUpdate = true;
+    };
+
+    const place = (shape, s) => {
+      const fit = Math.max(1e-4, Math.min((width * s.scale) / shape.logoWidth, (height * s.scale) / shape.logoHeight));
+      return {
+        fit,
+        ox: width / 2 - (shape.pad + shape.logoWidth / 2) * fit,
+        oy: height / 2 - (shape.pad + shape.logoHeight / 2) * fit,
+        unit: (Math.max(shape.logoWidth, shape.logoHeight) * fit) / 100
+      };
+    };
+
+    const resize = () => {
+      width = Math.max(1, container.clientWidth);
+      height = Math.max(1, container.clientHeight);
+      renderer.dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(PIXEL_BUDGET / (width * height)));
+      renderer.setSize(width, height);
+      uniforms.uResolution.value = [width, height];
+      if (!canAnimate()) paintStill();
+    };
+
+    const frame = now => {
+      raf = 0;
+      const s = settingsRef.current;
+      const elapsed = Math.max(0, (now - last) / 1000);
+      const dt = Math.min(0.05, elapsed);
+      const reducedMotion = !enabled;
+      last = now;
+
+      const incoming = shapeRef.current;
+      if (incoming && incoming !== slots[target].shape) pending = incoming;
+      if (pending && morph >= 1) {
+        if (slots[target].shape) {
+          target = 1 - target;
+          morph = 0;
+          sparks.length = 0;
+        }
+        load(slots[target], pending);
+        pending = null;
+      }
+      if (morph < 1) morph = Math.min(1, morph + dt / (pending ? 0.3 : 1.6));
+
+      const to = slots[target].shape;
+      const from = morph < 1 ? slots[1 - target].shape : null;
+      if (to) progress = Math.min(1, progress + dt / 1.4);
+      const presence = progress * progress * (3 - 2 * progress);
+
+      if (to && s) {
+        const near = place(to, s);
+        const far = from ? place(from, s) : near;
+        const blend = morph * morph * (3 - 2 * morph);
+        const unit = far.unit + (near.unit - far.unit) * blend;
+
+        const engaged = s.interactive && pointer.over;
+        if (engaged && hover.power < 0.01) {
+          hover.x = pointer.x;
+          hover.y = pointer.y;
+          hover.vx = 0;
+          hover.vy = 0;
+        }
+        hover.vx += ((pointer.x - hover.x) * 120 - hover.vx * 19) * dt;
+        hover.vy += ((pointer.y - hover.y) * 120 - hover.vy * 19) * dt;
+        hover.x += hover.vx * dt;
+        hover.y += hover.vy * dt;
+        hover.power += ((engaged ? 1 : 0) - hover.power) * (1 - Math.exp(-dt / (engaged ? 0.3 : 0.55)));
+
+        const motion = reducedMotion ? 0.2 : 1;
+        time += elapsed * s.speed * motion;
+
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          if (time - sparks[i].born > sparks[i].life) sparks.splice(i, 1);
+        }
+        const focus = spot => ({
+          x: (spot.x - near.ox) / near.fit,
+          y: (spot.y - near.oy) / near.fit,
+          radius: Math.max(1, s.cursorRadius) / near.fit
+        });
+        if (burst && morph >= 1 && s.arcs > 0) {
+          for (let i = 0; i < 3 && sparks.length < ARCS; i++) {
+            const spark = spawnArc(to, time, focus(burst));
+            if (spark) sparks.push(spark);
+          }
+        }
+        burst = null;
+        if (!reducedMotion && presence > 0.8 && morph >= 1 && sparks.length < ARCS) {
+          const chance = dt * s.speed * s.arcs;
+          if (Math.random() < chance * 6 * hover.power * s.cursorIntensity) {
+            const spark = spawnArc(to, time, focus(hover));
+            if (spark) sparks.push(spark);
+          } else if (Math.random() < chance * 2.2) {
+            const spark = spawnArc(to, time, null);
+            if (spark) sparks.push(spark);
+          }
+        }
+
+        for (let i = 0; i < ARCS; i++) {
+          const o = i * 4;
+          const spark = sparks[i];
+          if (!spark) {
+            arcShape[o + 1] = 0;
+            continue;
+          }
+          const k = (time - spark.born) / spark.life;
+          arcEnds[o] = near.ox + spark.ax * near.fit;
+          arcEnds[o + 1] = near.oy + spark.ay * near.fit;
+          arcEnds[o + 2] = near.ox + spark.bx * near.fit;
+          arcEnds[o + 3] = near.oy + spark.by * near.fit;
+          arcShape[o] = spark.bow * near.fit;
+          arcShape[o + 1] = Math.sin(Math.PI * Math.min(1, Math.max(0, k))) * presence;
+          arcShape[o + 2] = spark.seed;
+        }
+
+        let boost = 0;
+        let flash = 0;
+        for (let i = pulses.length - 1; i >= 0; i--) {
+          if ((now - pulses[i].born) / 1000 > 2) pulses.splice(i, 1);
+        }
+        for (let i = 0; i < PULSES; i++) {
+          const o = i * 4;
+          const pulse = pulses[i];
+          if (!pulse) {
+            pulseData[o + 3] = 0;
+            continue;
+          }
+          const age = (now - pulse.born) / 1000;
+          pulseData[o] = pulse.x;
+          pulseData[o + 1] = pulse.y;
+          pulseData[o + 2] = age;
+          pulseData[o + 3] = 1;
+          boost = Math.max(boost, Math.exp(-age * 1.7));
+          flash += Math.exp(-age * 7);
+        }
+
+        const fromSlot = slots[1 - target];
+        uniforms.tFieldTo.value = slots[target].field;
+        uniforms.tGlowTo.value = slots[target].glow;
+        uniforms.tFieldFrom.value = fromSlot.field;
+        uniforms.tGlowFrom.value = fromSlot.glow;
+        uniforms.uMapTo.value = [near.ox, near.oy, near.fit, to.glowOffset];
+        uniforms.uSizeTo.value = [to.width, to.height, to.glowWidth, to.glowHeight];
+        if (from) {
+          uniforms.uMapFrom.value = [far.ox, far.oy, far.fit, from.glowOffset];
+          uniforms.uSizeFrom.value = [from.width, from.height, from.glowWidth, from.glowHeight];
+        }
+        uniforms.uMorph.value = morph;
+        uniforms.uUnit.value = unit;
+        uniforms.uTime.value = time;
+        uniforms.uPresence.value = presence;
+        uniforms.uHover.value = [hover.x, hover.y, hover.power * Math.max(0, s.cursorIntensity)];
+        uniforms.uHoverRadius.value = Math.max(1, s.cursorRadius);
+        uniforms.uPulseBoost.value = boost;
+        uniforms.uFlash.value = flash;
+        const targets = [hexToRgb(s.color), hexToRgb(s.glowColor)];
+        const shift = settled ? 1 - Math.exp(-dt / 0.35) : 1;
+        settled = true;
+        for (let i = 0; i < 2; i++) {
+          for (let c = 0; c < 3; c++) hues[i][c] += (targets[i][c] - hues[i][c]) * shift;
+        }
+        uniforms.uColor.value = hues[0].slice();
+        uniforms.uGlowColor.value = hues[1].slice();
+        uniforms.uIntensity.value = s.intensity;
+        uniforms.uGlow.value = s.glow;
+        uniforms.uThickness.value = s.thickness;
+        uniforms.uStrands.value = Math.max(1, Math.min(6, Math.round(s.strands)));
+        uniforms.uBend.value = s.bend;
+        uniforms.uCrackle.value = s.crackle;
+        uniforms.uFlicker.value = reducedMotion ? 0 : s.flicker;
+        ink += ((s.theme === 'light' ? 1 : 0) - ink) * (1 - Math.exp(-dt / 0.25));
+        uniforms.uFill.value = s.fill;
+        uniforms.uInk.value = ink;
+        renderer.render({ scene: mesh });
+        canvas.style.opacity = '1';
+        fallback.style.display = 'none';
+        container.dataset.electricState = 'ready';
+        container.dataset.electricMotion = enabled ? 'on' : 'off';
+        s.onRender?.(canvas);
+      }
+
+      if (canAnimate()) raf = requestAnimationFrame(frame);
+    };
+
+    const start = () => {
+      if (raf || !canAnimate()) return;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+
+    const pause = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      last = performance.now();
+    };
+    const paintStill = () => {
+      if (contextLost || !visible || document.hidden) return;
+      last = performance.now();
+      if (!enabled) progress = 1;
+      frame(last);
+    };
+    const syncMotion = () => {
+      pause();
+      if (canAnimate()) start();
+      else paintStill();
+    };
+    const onMotion = event => {
+      if (typeof event.detail?.enabled !== 'boolean') return;
+      enabled = event.detail.enabled;
+      manualMotion = true;
+      if (!enabled) {
+        pointer.over = false;
+        hover.power = 0;
+        sparks.length = 0;
+        pulses.length = 0;
+      }
+      syncMotion();
+    };
+    const onPreference = () => {
+      if (!manualMotion) {
+        enabled = !motionQuery.matches;
+        syncMotion();
+      }
+    };
+    const onVisibility = () => syncMotion();
+    const onContextLost = event => {
+      event.preventDefault();
+      contextLost = true;
+      pause();
+      canvas.style.opacity = '0';
+      fallback.style.display = '';
+      container.dataset.electricState = 'fallback';
+      container.dataset.electricMotion = 'off';
+    };
+    window.addEventListener('portfolio-motion-change', onMotion);
+    document.addEventListener('visibilitychange', onVisibility);
+    motionQuery.addEventListener('change', onPreference);
+    canvas.addEventListener('webglcontextlost', onContextLost);
+
+    const onMove = e => {
+      if (!enabled || !settingsRef.current.interactive) return;
+      const rect = container.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+      pointer.over = true;
+    };
+    const onDown = e => {
+      onMove(e);
+      if (!settingsRef.current?.interactive || !enabled) return;
+      pulses.push({ x: pointer.x, y: pointer.y, born: performance.now() });
+      if (pulses.length > PULSES) pulses.shift();
+      burst = { x: pointer.x, y: pointer.y };
+    };
+    const onLeave = () => {
+      pointer.over = false;
+    };
+    container.addEventListener('pointermove', onMove);
+    container.addEventListener('pointerdown', onDown);
+    container.addEventListener('pointerleave', onLeave);
+    container.addEventListener('pointercancel', onLeave);
+
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncMotion();
+    });
+    intersectionObserver.observe(container);
+
+    resize();
+    syncMotion();
+
+    const destroy = () => {
+      visible = false;
+      cancelAnimationFrame(raf);
+      resizeObserver.disconnect();
+      intersectionObserver.disconnect();
+      container.removeEventListener('pointermove', onMove);
+      container.removeEventListener('pointerdown', onDown);
+      container.removeEventListener('pointerleave', onLeave);
+      container.removeEventListener('pointercancel', onLeave);
+      window.removeEventListener('portfolio-motion-change', onMotion);
+      document.removeEventListener('visibilitychange', onVisibility);
+      motionQuery.removeEventListener('change', onPreference);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
+      fallback.remove();
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+    };
+
+    return {
+      destroy,
+      setMotion(value) { onMotion({detail: {enabled: Boolean(value)}}); },
+      get enabled() { return enabled; },
+      get time() { return time; },
+      canvas
+    };
+
+  } catch (error) {
+    rendererRef?.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    targetCanvas.style.opacity = '0';
+    fallback.style.display = '';
+    container.dataset.electricState = 'fallback';
+    container.dataset.electricMotion = 'off';
+    return null;
+  }
+}
+window.electricDecoration = await mountElectricDecoration();
+})();
+</script>
+</body>
+</html>
