@@ -12,6 +12,21 @@ const sourceLink = panel.querySelector('.music-official-song');
 const count = panel.querySelector('.music-catalog-count');
 const live = panel.querySelector('.music-live');
 const songs = CATALOG.songs;
+const modeControl = panel.querySelector('#music-mode');
+const autoControl = panel.querySelector('#music-auto');
+let preferences = { mode: 'sequential', automatic: true };
+try { const saved = JSON.parse(localStorage.getItem('zh-music-preferences')); if (['sequential', 'random'].includes(saved?.mode)) preferences.mode = saved.mode; if (typeof saved?.automatic === 'boolean') preferences.automatic = saved.automatic; } catch {}
+let shuffleBag = [], history = [];
+const persistPreferences = () => { try { localStorage.setItem('zh-music-preferences', JSON.stringify(preferences)); } catch {} };
+function syncPreferences() { modeControl.value = preferences.mode; autoControl.checked = preferences.automatic; autoControl.disabled = provider === 'qq-official'; }
+function stepSong(delta) {
+  if (preferences.mode !== 'random') { select(active + delta); return; }
+  if (delta < 0) { if (history.length > 1) { history.pop(); select(history.pop()); } return; }
+  shuffleBag = shuffleBag.filter(index => index !== active);
+  if (!shuffleBag.length) { shuffleBag = songs.map((_, index) => index).filter(index => index !== active); for (let i = shuffleBag.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [shuffleBag[i], shuffleBag[j]] = [shuffleBag[j], shuffleBag[i]]; } }
+  select(shuffleBag.pop() ?? active);
+}
+function requestPlay() { if (provider === 'qq-sdk' && player) { if (player.data?.song?.mid === songs[active].mid) player.play(); else player.play(songs[active].mid, { tryPlay: false }); } }
 let active = 0;
 let mountedId = null;
 let generation = 0;
@@ -25,7 +40,7 @@ let hasStarted = false;
 let nativeControls = null;
 let handlers = [];
 
-const formatTime = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+const formatTime = value => { const seconds = Math.max(0, Math.floor(Number(value) || 0)); return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`; };
 function announce(message) { live.textContent = message; }
 function updateLauncher() {
   launcher.querySelector('span').textContent = mountedId === null ? '听薛之谦' : `${songs[active].title} · ${autoplayBlocked ? '点此播放' : playback === 'playing' ? '播放中' : '展开'}`;
@@ -51,19 +66,10 @@ function loadSdk() {
 }
 function mountOfficialFrame(song, token) {
   if (token !== generation || mountedId !== song.id) return;
-  detachPlayer();
-  nativeControls = null;
-  provider = 'qq-embed';
-  playback = 'needs-qq';
-  autoplayBlocked = false;
-  updateLauncher();
-  const frame = document.createElement('iframe');
-  frame.title = `${song.title} · QQ音乐官方播放器，点击播放并可拖动进度`;
-  frame.src = `https://i.y.qq.com/n2/m/outchain/player/index.html?songid=${song.id}&songtype=0`;
-  frame.allow = 'autoplay';
-  frame.referrerPolicy = 'strict-origin-when-cross-origin';
-  mount.replaceChildren(frame);
-  announce('暂时没能自动播放，请点击封面的播放按钮，或在QQ音乐中打开。');
+  detachPlayer(); nativeControls = null; provider = 'qq-official'; playback = 'needs-qq'; autoplayBlocked = false;
+  updateLauncher(); syncPreferences();
+  const link = document.createElement('a'); link.className = 'music-open-full'; link.textContent = '去 QQ 音乐播放 ↗'; link.href = sourceLink.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; mount.replaceChildren(link);
+  announce('站内未获得完整音频，请在 QQ 音乐登录并按曲目权限播放。外部页面需手动控制。');
 }
 function drawControls(song) {
   const controls = document.createElement('div');
@@ -85,7 +91,7 @@ function drawControls(song) {
   button.addEventListener('click', () => {
     if (!player || provider !== 'qq-sdk') return;
     if (playback === 'playing') player.pause();
-    else { playback = 'loading'; announce('正在打开歌曲…'); player.play(); }
+    else { playback = 'loading'; announce('正在打开歌曲…'); requestPlay(); }
   });
   seek.addEventListener('input', () => { if (player && provider === 'qq-sdk') player.currentTime = Number(seek.value); });
   nativeControls = { button, seek, time };
@@ -104,6 +110,7 @@ async function mountPlayer() {
   mountedId = song.id;
   hasStarted = false; autoplayBlocked = false;
   provider = 'loading'; playback = 'loading';
+  syncPreferences();
   drawControls(song);
   nativeControls.button.disabled = true;
   updateLauncher();
@@ -113,7 +120,9 @@ async function mountPlayer() {
     if (token !== generation) return;
     player ||= new QMPlayer();
     player.target = 'web';
+    player.loop = false;
     provider = 'qq-sdk';
+    syncPreferences();
     nativeControls.button.disabled = false;
     const listen = (event, handler) => {
       const guarded = data => { if (token === generation && provider === 'qq-sdk') handler(data); };
@@ -122,16 +131,18 @@ async function mountPlayer() {
     listen('play', () => { playback = 'playing'; hasStarted = true; autoplayBlocked = false; updateLauncher(); announce(`正在播放 ${song.title}，缩小后音乐会继续。`); refreshControls(); });
     listen('pause', () => { playback = 'paused'; autoplayBlocked = !hasStarted; updateLauncher(); announce('点击播放，开始听歌。'); refreshControls(); });
     listen('timeupdate', event => {
-      const duration = Number(player.duration) || song.duration;
+      const actualDuration = Number(player.duration);
+      if (actualDuration > 0 && actualDuration < song.duration - 10) { mountOfficialFrame(song, token); return; }
+      const duration = actualDuration || song.duration;
       const time = Number(event.currentTime) || 0;
       nativeControls.seek.max = String(duration);
       nativeControls.seek.value = String(time);
       nativeControls.time.textContent = `${formatTime(time)} / ${formatTime(duration)}`;
     });
-    listen('ended', () => { playback = 'paused'; updateLauncher(); announce('这首歌播放结束，可以选择下一首。'); refreshControls(); });
+    listen('ended', () => { if (preferences.automatic) stepSong(1); else { playback = 'paused'; updateLauncher(); announce('这首歌播放结束，可以选择下一首。'); refreshControls(); } });
     listen('error', () => mountOfficialFrame(song, token));
     autoplayAttempted = true;
-    player.play(song.mid);
+    requestPlay();
   } catch { mountOfficialFrame(song, token); }
 }
 function renderSongs() {
@@ -158,6 +169,7 @@ function renderSongs() {
 }
 function select(index) {
   active = (index + songs.length) % songs.length;
+  history.push(active); if (history.length > 1000) history.shift();
   const song = songs[active];
   title.textContent = song.title;
   album.textContent = song.subtitle || song.album;
@@ -178,6 +190,7 @@ function stop(message = '播放已停止，点击下方按钮重新打开。') {
   detachPlayer();
   provider = 'stopped'; playback = 'stopped'; nativeControls = null; autoplayBlocked = false;
   mountedId = null;
+  syncPreferences();
   updateLauncher(); announce(message);
   const button = document.createElement('button'); button.type = 'button'; button.textContent = '打开音乐播放器'; button.className = 'music-reload'; button.onclick = mountPlayer;
   mount.replaceChildren(button);
@@ -185,17 +198,20 @@ function stop(message = '播放已停止，点击下方按钮重新打开。') {
 launcher.addEventListener('click', () => {
   const open = panel.hidden;
   setOpen(open);
-  if (open && autoplayBlocked && provider === 'qq-sdk') player.play();
+  if (open && autoplayBlocked && provider === 'qq-sdk') requestPlay();
 });
 panel.querySelector('.music-close').addEventListener('click', () => setOpen(false));
-panel.querySelector('[data-music-step="-1"]').addEventListener('click', () => select(active - 1));
-panel.querySelector('[data-music-step="1"]').addEventListener('click', () => select(active + 1));
+panel.querySelector('[data-music-step="-1"]').addEventListener('click', () => stepSong(-1));
+panel.querySelector('[data-music-step="1"]').addEventListener('click', () => stepSong(1));
 panel.querySelector('.music-stop').addEventListener('click', () => stop());
 search.addEventListener('input', renderSongs);
-list.addEventListener('click', event => { const button = event.target.closest('[data-song-index]'); if (button) select(Number(button.dataset.songIndex)); });
+list.addEventListener('click', event => { const button = event.target.closest('[data-song-index]'); if (button) { history = []; shuffleBag = []; select(Number(button.dataset.songIndex)); } });
+modeControl.addEventListener('change', () => { preferences.mode = modeControl.value; shuffleBag = []; history = [active]; persistPreferences(); });
+autoControl.addEventListener('change', () => { preferences.automatic = autoControl.checked; persistPreferences(); });
 panel.addEventListener('keydown', event => { if (event.key === 'Escape') { setOpen(false); event.stopPropagation(); } });
 panel.addEventListener('pointermove', event => { const rect = panel.getBoundingClientRect(); panel.style.setProperty('--music-x', `${((event.clientX - rect.left) / rect.width) * 100}%`); panel.style.setProperty('--music-y', `${((event.clientY - rect.top) / rect.height) * 100}%`); });
 document.addEventListener('play', event => { if (event.target instanceof HTMLVideoElement && mountedId !== null) stop('视频播放中，音乐已停止。'); }, true);
-window.portfolioMusic = { getState: () => ({ total: songs.length, active, song: songs[active].title, open: !panel.hidden, mountedId, provider, playback, autoplayAttempted, autoplayBlocked, source: CATALOG.source, catalogDate: CATALOG.fetchedAt }), select };
+window.portfolioMusic = { getState: () => ({ total: songs.length, active, song: songs[active].title, open: !panel.hidden, mountedId, provider, playback, autoplayAttempted, autoplayBlocked, mode: preferences.mode, automatic: preferences.automatic, fullAudioVerified: false, source: CATALOG.source, catalogDate: CATALOG.fetchedAt }), select };
 select(0);
-mountPlayer();
+syncPreferences();
+if (preferences.automatic) mountPlayer();

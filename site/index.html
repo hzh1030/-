@@ -132,8 +132,9 @@
 <link rel="stylesheet" href="react-bits-gallery.css?v=15">
 <script type="module" src="flex-carousel.js?v=16"></script>
 <script type="module" src="glow-cursor.js?v=15"></script>
-<link rel="stylesheet" href="liquid-music.css?v=18">
-<script type="module" src="liquid-music.js?v=18"></script>
+<link rel="stylesheet" href="liquid-music.css?v=19">
+<script type="module" src="liquid-music.js?v=19"></script>
+<script defer src="static-host.js?v=19"></script>
 </head>
 <body class="ocean-page glass-page ocean-nav-deep">
   <div id="glow-cursor-layer" aria-hidden="true"><canvas id="glow-cursor-canvas"></canvas></div>
@@ -144,9 +145,10 @@
     <div class="music-current"><img class="music-cover" alt="专辑封面" width="56" height="56"><div><strong class="music-current-title">演员</strong><span class="music-current-album">薛之谦</span></div></div>
     <div class="music-embed"></div>
     <div class="music-transport"><button type="button" data-music-step="-1" aria-label="上一首">← 上一首</button><button class="music-stop" type="button">停止</button><button type="button" data-music-step="1" aria-label="下一首">下一首 →</button><a class="music-official-song" href="https://y.qq.com/n/ryqq/songDetail/001Qu4I30eVFYb" target="_blank" rel="noopener noreferrer">QQ音乐 ↗</a></div>
+    <div class="music-settings"><label class="music-auto-label"><input id="music-auto" type="checkbox" checked>自动播放</label><label class="music-mode-label"><span class="music-sr-only">播放顺序</span><select id="music-mode"><option value="sequential">顺序播放</option><option value="random">随机播放</option></select></label></div>
     <label class="music-search-label" for="music-search"><span>搜索薛之谦的歌曲或专辑</span><input id="music-search" type="search" placeholder="搜索歌名 / 专辑" autocomplete="off"></label>
     <p class="music-catalog-count"></p><div class="music-song-list" aria-label="薛之谦QQ音乐曲库"></div>
-    <p class="music-footnote">缩小后音乐继续，点击「停止」结束播放。进入网站会尝试播放；未自动出声时请点击播放。部分曲目需登录或会员，可在QQ音乐中打开。</p><div class="music-live" role="status" aria-live="polite"></div>
+    <p class="music-footnote">缩小后音乐继续。站内仅尝试播放官方完整音频，不回退到一分钟试听。未获完整音频时去 QQ 音乐播放，可能需登录或会员。官方音频可用时支持自动连播；浏览器可能需要你点击播放。</p><div class="music-live" role="status" aria-live="polite"></div>
   </aside>
   <a class="skip-link" href="#main">跳到正文</a>
   <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true">✳</span><span>背景动效</span><span class="motion-state" aria-hidden="true">关</span></button>
@@ -154,7 +156,7 @@
     <div class="header-inner wrap">
       <a class="brand" href="#home" aria-label="ZH的个站，返回首页"><span class="brand-mark" aria-hidden="true">zh<span>·</span></span><span class="brand-name">ZH的个站</span></a>
       <nav aria-label="主要导航"><a href="#home" aria-current="page">首页</a><a href="#work">作品</a><a href="#about">关于我</a><a href="#contact">联系</a></nav>
-      <a class="header-resume" href="/resume">简历精简版</a>
+      <a class="header-resume" href="resume.html">简历精简版</a>
     </div>
   </header>
   <main id="main">
