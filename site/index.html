@@ -128,8 +128,25 @@
     }
   </script>
 <script defer src="portfolio-motion.js?v=glass-14"></script>
+<link rel="stylesheet" href="react-bits-gallery.css?v=15">
+<script type="module" src="flex-carousel.js?v=15"></script>
+<script type="module" src="glow-cursor.js?v=15"></script>
+<link rel="stylesheet" href="liquid-music.css?v=15">
+<script type="module" src="liquid-music.js?v=15"></script>
 </head>
 <body class="ocean-page glass-page ocean-nav-deep">
+  <div id="glow-cursor-layer" aria-hidden="true"><canvas id="glow-cursor-canvas"></canvas></div>
+
+  <button class="music-launcher" id="music-launcher" type="button" aria-controls="liquid-music" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 18V5l11-2v13M9 7l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2.5"/><ellipse cx="17" cy="16" rx="3" ry="2.5"/></svg><span>听薛之谦</span></button>
+  <aside class="liquid-music" id="liquid-music" hidden aria-labelledby="music-player-title">
+    <div class="music-heading"><div><p>LIQUID SOUND / QQ MUSIC</p><h2 id="music-player-title">留一点时间，听歌。</h2></div><button class="music-close" type="button" aria-label="关闭音乐播放器并停止播放">×</button></div>
+    <div class="music-current"><img class="music-cover" alt="专辑封面" width="56" height="56"><div><strong class="music-current-title">演员</strong><span class="music-current-album">薛之谦</span></div></div>
+    <div class="music-embed"></div>
+    <div class="music-transport"><button type="button" data-music-step="-1" aria-label="上一首">← 上一首</button><button class="music-stop" type="button">停止</button><button type="button" data-music-step="1" aria-label="下一首">下一首 →</button><a class="music-official-song" href="https://y.qq.com/n/ryqq/songDetail/001Qu4I30eVFYb" target="_blank" rel="noopener noreferrer">QQ音乐 ↗</a></div>
+    <label class="music-search-label" for="music-search"><span>搜索薛之谦的歌曲或专辑</span><input id="music-search" type="search" placeholder="搜索歌名 / 专辑" autocomplete="off"></label>
+    <p class="music-catalog-count"></p><div class="music-song-list" aria-label="薛之谦QQ音乐曲库"></div>
+    <p class="music-footnote">点击上方封面的播放按钮，拖动进度条即可跳转。部分曲目需登录或会员，如未能播放，可在QQ音乐中打开。</p><div class="music-live" role="status" aria-live="polite"></div>
+  </aside>
   <a class="skip-link" href="#main">跳到正文</a>
   <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true">✳</span><span>背景动效</span><span class="motion-state" aria-hidden="true">关</span></button>
   <header class="site-header">
@@ -176,7 +193,14 @@
   </section></div>
     <div class="portfolio-shell">
     <div class="intro-strip wrap" aria-label="个人信息"><span>韩子和 / ZH</span><span class="strip-cross" aria-hidden="true">＋</span><span>山西 · 太原</span><span class="strip-cross" aria-hidden="true">＋</span><span>纯 I 人</span><p>篮球、游戏、音乐，团团和美雪。</p></div>
-    <div class="showcase-ribbon" aria-label="作品与生活预览"><div class="ribbon-track"><div class="ribbon-group"><a class="ribbon-shot" href="#game-gallery"><img src="assets/werewolf-lobby.png" alt="" loading="lazy"><span>美烂你 · 狼人杀</span></a><a class="ribbon-shot" href="#annotation"><img src="assets/annotation-import.png" alt="" loading="lazy"><span>视频标注协作平台</span></a><a class="ribbon-shot" href="#life"><img src="assets/meixue-1.jpg" alt="" loading="lazy"><span>美雪</span></a><a class="ribbon-shot" href="#music"><img src="assets/xuliang-live-01.jpg" alt="" loading="lazy"><span>演唱会现场</span></a><a class="ribbon-shot" href="#performance"><img src="assets/girlfriend-performance-poster.jpg" alt="" loading="lazy"><span>她的弹唱</span></a></div><div class="ribbon-group" aria-hidden="true"><a class="ribbon-shot" href="#game-gallery" tabindex="-1"><img src="assets/werewolf-lobby.png" alt="" loading="lazy"><span>美烂你 · 狼人杀</span></a><a class="ribbon-shot" href="#annotation" tabindex="-1"><img src="assets/annotation-import.png" alt="" loading="lazy"><span>视频标注协作平台</span></a><a class="ribbon-shot" href="#life" tabindex="-1"><img src="assets/meixue-1.jpg" alt="" loading="lazy"><span>美雪</span></a><a class="ribbon-shot" href="#music" tabindex="-1"><img src="assets/xuliang-live-01.jpg" alt="" loading="lazy"><span>演唱会现场</span></a><a class="ribbon-shot" href="#performance" tabindex="-1"><img src="assets/girlfriend-performance-poster.jpg" alt="" loading="lazy"><span>她的弹唱</span></a></div></div></div>
+    <section class="showcase-flex" aria-label="作品与生活预览">
+      <div id="portfolio-carousel" class="flex-carousel" role="region" aria-roledescription="图片轮播" aria-label="作品与生活照片，可左右拖动并点击聚焦" tabindex="0" style="--flex-carousel-half:25%">
+        <div class="flex-fallback"><a href="#game-gallery" class="flex-fallback-card" data-index="0"><img src="assets/werewolf-lobby.png" alt="美烂你 · 狼人杀" loading="lazy"><span>美烂你 · 狼人杀</span></a><a href="#annotation" class="flex-fallback-card" data-index="1"><img src="assets/annotation-import.png" alt="视频标注协作平台" loading="lazy"><span>视频标注协作平台</span></a><a href="#life" class="flex-fallback-card" data-index="2"><img src="assets/meixue-1.jpg" alt="美雪" loading="lazy"><span>美雪</span></a><a href="#music" class="flex-fallback-card" data-index="3"><img src="assets/xuliang-live-01.jpg" alt="演唱会现场" loading="lazy"><span>演唱会现场</span></a><a href="#performance" class="flex-fallback-card" data-index="4"><img src="assets/girlfriend-performance-poster.jpg" alt="她的弹唱" loading="lazy"><span>她的弹唱</span></a></div>
+        <div class="flex-carousel__caption" hidden><span class="flex-carousel__title"></span><span class="flex-carousel__count"><span class="flex-carousel__current">01</span><span class="flex-carousel__slash"> / </span><span>05</span></span></div>
+        <div class="flex-carousel__live" aria-live="polite" aria-atomic="true"></div>
+      </div>
+      <div class="flex-carousel-tools" hidden><button type="button" data-carousel-step="-1" aria-label="上一张图片">←</button><span>左右拖动 · 点击聚焦</span><button type="button" data-carousel-step="1" aria-label="下一张图片">→</button><a class="flex-carousel-detail" href="#game-gallery">查看作品 →</a></div>
+    </section>
     <section class="work-section wrap" id="work" aria-labelledby="work-title">
       <div class="section-heading"><div><p class="eyebrow section-index">01 / THINGS I'VE MADE</p><h2 id="work-title">我做的小作品<span class="orange-period">。</span></h2></div><span class="demo-label">从喜欢玩，到尝试创造</span></div>
       <div class="selected-projects" aria-label="精选作品与生活">
