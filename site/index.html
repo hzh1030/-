@@ -133,10 +133,14 @@
 <script type="module" src="flex-carousel.js?v=16"></script>
 <script type="module" src="glow-cursor.js?v=15"></script>
 <link rel="stylesheet" href="liquid-music.css?v=20">
-<script type="module" src="liquid-music.js?v=20"></script>
+<script type="module" src="liquid-music.js?v=23"></script>
 <script defer src="static-host.js?v=20"></script>
-<link rel="stylesheet" href="assets/comet/react-islands.css?v=21">
-<script type="module" src="assets/comet/react-islands.js?v=21"></script>
+<link rel="stylesheet" href="assets/comet/react-islands.css?v=22">
+<script type="module" src="assets/comet/react-islands.js?v=22"></script>
+<style>
+/* Preserve both backdrop properties here, outside the Tailwind CSS optimizer. */
+body.glass-page #about, body.glass-page #achievements { backdrop-filter:none; -webkit-backdrop-filter:none; }
+</style>
 </head>
 <body class="ocean-page glass-page ocean-nav-deep">
   <div id="glow-cursor-layer" aria-hidden="true"><canvas id="glow-cursor-canvas"></canvas></div>

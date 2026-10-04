@@ -1,4 +1,4 @@
-import CATALOG from './music-catalog.js';
+import CATALOG from './music-catalog.js?v=23';
 const launcher=document.querySelector('#music-launcher'),panel=document.querySelector('#liquid-music');
 const list=panel.querySelector('.music-song-list'),search=panel.querySelector('#music-search');
 const title=panel.querySelector('.music-current-title'),album=panel.querySelector('.music-current-album'),cover=panel.querySelector('.music-cover');
@@ -48,7 +48,7 @@ function renderSongs(){
 }
 function select(index,{start=true,record=true}={}){
  active=(index+songs.length)%songs.length;if(record){history.push(active);if(history.length>1000)history.shift();}
- title.textContent=songs[active].title;album.textContent=`${songs[active].artist} · ${songs[active].album}`;cover.src=songs[active].cover;cover.alt='ZH的音乐时刻';renderSongs();loadSong();if(start)requestPlay();
+ title.textContent=songs[active].title;album.textContent=`${songs[active].artist} · ${songs[active].album}`;cover.src=songs[active].cover;cover.alt='薛之谦';renderSongs();loadSong();if(start)requestPlay();
 }
 function stepSong(delta){
  if(preferences.mode!=='random'){select(active+delta);return;}
