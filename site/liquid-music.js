@@ -29,7 +29,7 @@ function refresh(){
  launcher.querySelector('span').textContent=mountedId===null?'听薛之谦':`${songs[active].title} · ${autoplayBlocked?'点此播放':playing?'播放中':'展开'}`;
 }
 async function requestPlay(){
- if(mountedId===null)loadSong();const token=generation;autoplayAttempted=true;playback='loading';announce('正在打开歌曲…');refresh();
+ if(mountedId===null||playback==='error')loadSong();const token=generation;autoplayAttempted=true;playback='loading';announce('正在打开歌曲…');refresh();
  try{await audio.play();}catch(error){if(token!==generation||error.name==='AbortError')return;if(error.name==='NotAllowedError'){autoplayBlocked=true;playback='paused';announce('点一次播放，就能开始听歌。');}else{playback='error';announce('这首歌暂时无法加载，点击播放重试。');}refresh();}
 }
 function loadSong(){++generation;audio.pause();mountedId=songs[active].id;autoplayBlocked=false;fullAudioVerified=false;audio.src=resolveSource(songs[active]);audio.load();playback='paused';refresh();}
