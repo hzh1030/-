@@ -1,0 +1,8 @@
+.git
+.openai
+.sites-runtime
+dist
+worker
+scripts
+node_modules
+*.tar.gz
