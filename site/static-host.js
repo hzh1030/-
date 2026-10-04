@@ -10,7 +10,7 @@ if (location.hostname === 'hzh1030.github.io') {
 if (['rawcdn.githack.com', 'raw.githack.com'].includes(location.hostname)) {
   const fullSite = 'https://tamper-reason-opposing.ngrok-free.dev/zh/';
   const style = document.createElement('style');
-  style.textContent = '.cloud-video-entry{display:block;position:relative;color:#effaff;text-decoration:none;background:#071018;overflow:hidden;border-radius:14px}.cloud-video-entry img{display:block;width:100%;max-height:420px;object-fit:contain}.cloud-video-entry span{display:block;padding:14px 16px;background:linear-gradient(120deg,#102734,#112036);font-size:14px}.cloud-video-entry:hover span{color:#67e8f9}.cloud-video-entry:focus-visible{outline:2px solid #67e8f9;outline-offset:4px}';
+  style.textContent = '.video-card video[hidden]{display:none!important}.cloud-video-entry{display:block;position:relative;color:#effaff;text-decoration:none;background:#071018;overflow:hidden;border-radius:14px}.cloud-video-entry img{display:block;width:100%;max-height:420px;object-fit:contain}.cloud-video-entry span{display:block;padding:14px 16px;background:linear-gradient(120deg,#102734,#112036);font-size:14px}.cloud-video-entry:hover span{color:#67e8f9}.cloud-video-entry:focus-visible{outline:2px solid #67e8f9;outline-offset:4px}';
   document.head.append(style);
   for (const video of document.querySelectorAll('.video-card video')) {
     const card = video.closest('.video-card');
