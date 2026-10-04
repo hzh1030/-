@@ -84,13 +84,14 @@
 .glass-rendered #glass-fallback{visibility:hidden}
 .glass-page .portfolio-shell{background:radial-gradient(ellipse at 5% 9%,#14463333,transparent 30%),#060c12}
 
-/* Small decorative ZH logo; the root integrates placement with its layout. */
+/* Decorative ZH logo with room for its electric glow at each viewport size. */
 #electric-decoration {
   position: absolute;
   left: var(--pad-x, 4vw);
-  top: 34%;
-  width: 170px;
-  height: 220px;
+  top: calc(34% + 110px);
+  width: clamp(220px, 22vw, 320px);
+  height: clamp(286px, 28.6vw, 416px);
+  transform: translateY(-50%);
   z-index: 4;
   overflow: hidden;
   pointer-events: auto;
@@ -111,10 +112,10 @@
 }
 @media (max-width: 720px) {
   #electric-decoration {
-    width: 90px;
-    height: 110px;
+    width: 150px;
+    height: 194px;
     left: var(--pad-x, 20px);
-    top: 100px;
+    top: 160px;
   }
 }
 
