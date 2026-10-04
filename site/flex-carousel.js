@@ -233,7 +233,7 @@ async function initializeCarousel() {
   const { Renderer, Program, Mesh, Triangle, Plane, Texture, RenderTarget } = ogl;
   const tools = document.querySelector('.flex-carousel-tools');
   const caption = container.querySelector('.flex-carousel__caption');
-  const settingsRef = { current: { ...BEND_PRESETS.liquid, intro: 'rise', cardHeight: 0.5, gap: 12, radius: 0, fit: 'natural', squeeze: 0.2, focusOnClick: true, autoplay: false, interval: 4, captureWheel: false } };
+  const settingsRef = { current: { ...BEND_PRESETS.liquid, intro: 'rise', cardHeight: 0.5, gap: 12, radius: 0, fit: 'natural', squeeze: 0.2, focusOnClick: true, autoplay: true, cruiseSpeed: 18, captureWheel: false } };
   const itemsRef = { current: ITEMS }, engineRef = { current: null }, callbacksRef = { current: {} };
   const setActive = index => {
     const item = ITEMS[index];
@@ -345,7 +345,7 @@ async function initializeCarousel() {
     let dirty = true;
     let activeIndex = -1;
     let interactedAt = -Infinity;
-    let autoplayAt = performance.now();
+    let cruiseSpeed = 0;
     let hasFocus = false;
     let deform = 0;
     let deformVel = 0;
@@ -494,6 +494,7 @@ async function initializeCarousel() {
     };
 
     const step = (m, delta) => {
+      interactedAt = performance.now();
       let at = snapPoint(m, goal);
       let index = nearest(m, at);
       const n = m.centers.length;
@@ -513,6 +514,7 @@ async function initializeCarousel() {
     };
 
     const goTo = (m, index) => {
+      interactedAt = performance.now();
       const i = ((index % m.centers.length) + m.centers.length) % m.centers.length;
       goal = goal + wrap(m.centers[i] - goal, m.loop);
       mode = 'spring';
@@ -533,6 +535,7 @@ async function initializeCarousel() {
       focus.pending = -1;
       if (focus.target === 0) return false;
       focus.target = 0;
+      interactedAt = performance.now();
       setFocusOpen(false);
       dirty = true;
       start();
@@ -666,7 +669,25 @@ async function initializeCarousel() {
         goal = snapPoint(m, goal);
         mode = 'spring';
       }
-      if (!pointer.dragging) {
+      const canCruise = s.autoplay && !reducedMotion && introState.done &&
+        focus.target === 0 && focus.t < 0.01 && focus.pending < 0 &&
+        !pointer.down && !pointer.dragging && !(hasFocus && container.matches(':focus-visible')) &&
+        now - interactedAt > 2000 &&
+        (mode === 'cruise' || (mode === 'spring' && Math.abs(goal - pos) < 0.08 && Math.abs(vel) < 0.6));
+      if (canCruise) {
+        mode = 'cruise';
+        cruiseSpeed += (s.cruiseSpeed - cruiseSpeed) * (1 - Math.exp(-dt / 0.8));
+        pos += cruiseSpeed * dt;
+        goal = pos;
+        vel = cruiseSpeed;
+        animating = true;
+      } else if (mode === 'cruise') {
+        mode = 'spring';
+        goal = pos;
+        vel = 0;
+        cruiseSpeed = 0;
+      }
+      if (!pointer.dragging && mode !== 'cruise') {
         const spinning = introState.running && introState.kind === 'spin';
         const stiffness = spinning ? 9 : mode === 'wheel' ? 80 : 55;
         const damping = 2 * Math.sqrt(stiffness);
@@ -683,7 +704,7 @@ async function initializeCarousel() {
         } else {
           animating = true;
         }
-      } else {
+      } else if (pointer.dragging) {
         animating = true;
       }
 
@@ -692,6 +713,7 @@ async function initializeCarousel() {
         pos -= shift;
         goal -= shift;
         pointer.startPos -= shift;
+        lastPos -= shift;
       }
 
       const current = nearest(m, pos);
@@ -706,24 +728,9 @@ async function initializeCarousel() {
         else focus.pending = -1;
       }
 
-      if (
-        s.autoplay &&
-        !reducedMotion &&
-        introState.done &&
-        focus.target === 0 &&
-        focus.t < 0.01 &&
-        !pointer.over &&
-        !pointer.down &&
-        !hasFocus &&
-        mode === 'spring' &&
-        Math.abs(goal - pos) < 1 &&
-        now - interactedAt > 3000 &&
-        now - autoplayAt > s.interval * 1000
-      ) {
-        autoplayAt = now;
-        step(m, 1);
-      }
-      if (s.autoplay && !reducedMotion) animating = true;
+      // Keep the short post-interaction delay awake, then drift at a steady pixel speed.
+      if (s.autoplay && !reducedMotion && introState.done && focus.target === 0 &&
+          focus.t < 0.01 && !(hasFocus && container.matches(':focus-visible'))) animating = true;
 
       const travel = Math.abs(pos - lastPos) / dt;
       lastPos = pos;
@@ -922,6 +929,12 @@ async function initializeCarousel() {
       pointer.dragging = false;
       pointer.samples = [{ x, t: performance.now() }];
       interactedAt = performance.now();
+      if (mode === 'cruise') {
+        mode = 'spring';
+        goal = pos;
+        vel = 0;
+        cruiseSpeed = 0;
+      }
       if (Math.abs(vel) > 40) {
         goal = pos;
         vel = 0;
@@ -999,7 +1012,7 @@ async function initializeCarousel() {
       const [x, y] = localPoint(e);
       const hit = instances.find(inst => x >= inst.x0 && x <= inst.x1 && y >= inst.y0 && y <= inst.y1);
       if (!hit) return;
-      if (hit.index === activeIndex && Math.abs(goal - pos) < 2) {
+      if (hit.index === activeIndex && Math.abs(goal - pos) < 2 && Math.abs(wrap(m.centers[hit.index] - pos, m.loop)) < 2) {
         callbacksRef.current.onSelect?.(hit.index, itemsRef.current[hit.index]);
         if (s.focusOnClick) openFocus(hit.index);
       } else {
@@ -1087,9 +1100,13 @@ async function initializeCarousel() {
 
     const onFocus = () => {
       hasFocus = true;
+      dirty = true;
+      start();
     };
     const onBlur = () => {
       hasFocus = false;
+      dirty = true;
+      start();
     };
     const onVisibility = () => {
       visible = intersecting && !document.hidden;
@@ -1130,7 +1147,7 @@ async function initializeCarousel() {
       },
       setItems,
       step: delta => { skipIntro(); closeFocus(); step(metrics(settingsRef.current), delta); },
-      getState: () => ({ active: activeIndex, frames, loaded: slots.filter(slot => slot.loaded).length, focused: focus.target > 0, intro: introState.kind, revealed: introState.done, visible, motion: !reducedMotion, preset: 'liquid', size: [width, height] })
+      getState: () => ({ active: activeIndex, frames, loaded: slots.filter(slot => slot.loaded).length, focused: focus.target > 0, intro: introState.kind, revealed: introState.done, visible, motion: !reducedMotion, preset: 'liquid', size: [width, height], position: pos, loop: layout?.loop, cruiseSpeed, mode })
     };
     window.portfolioCarousel = engineRef.current;
     container.classList.add('flex-ready');
