@@ -29,7 +29,7 @@ function refresh(){
  launcher.querySelector('span').textContent=mountedId===null?'听薛之谦':`${songs[active].title} · ${autoplayBlocked?'点此播放':playing?'播放中':'展开'}`;
 }
 async function requestPlay(){
- if(mountedId===null||playback==='error')loadSong();const token=generation;autoplayAttempted=true;playback='loading';announce('正在打开歌曲…');refresh();
+ if(mountedId===null||audio.error)loadSong();const token=generation;autoplayAttempted=true;playback='loading';announce('正在打开歌曲…');refresh();
  try{await audio.play();}catch(error){if(token!==generation||error.name==='AbortError')return;if(error.name==='NotAllowedError'){autoplayBlocked=true;playback='paused';announce('点一次播放，就能开始听歌。');}else{playback='error';announce('这首歌暂时无法加载，点击播放重试。');}refresh();}
 }
 function loadSong(){++generation;audio.pause();mountedId=songs[active].id;autoplayBlocked=false;fullAudioVerified=false;audio.src=resolveSource(songs[active]);audio.load();playback='paused';refresh();}
@@ -60,7 +60,7 @@ function stepSong(delta){
 function setOpen(open,focus=true){panel.hidden=!open;launcher.setAttribute('aria-expanded',String(open));if(open){if(mountedId===null||autoplayBlocked)requestPlay();if(focus)panel.querySelector('.music-close').focus({preventScroll:true});}else if(focus)launcher.focus({preventScroll:true});}
 function stop(message='播放已停止。'){++generation;audio.pause();audio.currentTime=0;mountedId=null;autoplayBlocked=false;playback='stopped';refresh();announce(message);}
 audio.addEventListener('playing',()=>{if(mountedId===null)return;playback='playing';autoplayBlocked=false;refresh();announce(`正在播放 ${songs[active].title}，缩小后继续。`);});
-audio.addEventListener('pause',()=>{if(mountedId===null)return;playback='paused';refresh();});
+audio.addEventListener('pause',()=>{if(mountedId===null||playback==='error')return;playback='paused';refresh();});
 audio.addEventListener('loadedmetadata',()=>{fullAudioVerified=Number.isFinite(audio.duration)&&Math.abs(audio.duration-songs[active].duration)<2&&audio.duration>60;refresh();});
 audio.addEventListener('timeupdate',refresh);
 audio.addEventListener('error',()=>{if(mountedId===null)return;playback='error';refresh();announce('这首歌暂时无法加载，点击播放重试。');});
@@ -74,7 +74,7 @@ modeControl.value=preferences.mode;autoControl.checked=preferences.automatic;
 modeControl.addEventListener('change',()=>{preferences.mode=modeControl.value;shuffleBag=[];history=[active];persist();});autoControl.addEventListener('change',()=>{preferences.automatic=autoControl.checked;persist();if(preferences.automatic&&audio.paused)requestPlay();});
 panel.addEventListener('keydown',event=>{if(event.key==='Escape'){setOpen(false);event.stopPropagation();}});
 panel.addEventListener('pointermove',event=>{const rect=panel.getBoundingClientRect();panel.style.setProperty('--music-x',`${(event.clientX-rect.left)/rect.width*100}%`);panel.style.setProperty('--music-y',`${(event.clientY-rect.top)/rect.height*100}%`);});
-document.addEventListener('play',event=>{if(event.target instanceof HTMLVideoElement&&mountedId!==null)stop('视频播放中，音乐已暂停。');},true);
+document.addEventListener('play',event=>{if(event.target instanceof HTMLVideoElement&&!event.target.hasAttribute('data-decorative')&&mountedId!==null)stop('视频播放中，音乐已暂停。');},true);
 // Audible autoplay is retried during a real visitor gesture when needed.
 const unlock=()=>{if(preferences.automatic&&autoplayBlocked&&mountedId!==null)requestPlay();};
 document.addEventListener('pointerdown',unlock,{capture:true,passive:true});document.addEventListener('keydown',unlock,{capture:true});
