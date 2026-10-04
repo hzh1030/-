@@ -1,0 +1,32 @@
+# ZH的个站
+
+韩子和的个人介绍与作品展示，包含狼人杀游戏、视频标注协作平台、团团与小猫的日常、美雪相册、演唱会与弹唱、两项兴趣记录和微信联系。按用户要求排除 PDF 的开场白、结尾、工作信息及第三项成就。没有添加未提供的学历、岗位、技术栈或业绩。
+
+## 页面与动效
+
+首页 `site/index.html` 按用户提供的 Design World 规格实现黑色全屏首屏。Poppins 大标题绘制到 CanvasTexture，玻璃模型用 Three.js 0.169.0 的两张半浮点渲染目标、背面及正面两次折射绘制，实现六色带色散；支持拖拽、惯性、左右90度旋转、切换圆点和手机布局。首屏 CSS 和 JS 内联，指定 GLB 从用户给定的 CloudFront URL 直接加载，不下载到本地或替换；加载失败时使用 RoundedBoxGeometry。
+
+侧边 ZH 装饰采用 React Bits Electric Logo 的距离场和电弧 Shader，保留用户提供的参数，适配为内联原生模块。`REACT-BITS-NOTICE.txt` 及源码注释包含完整许可。首屏渲染、侧边电流与照片带可通过右下角开关控制，遵循系统减少动态设置并允许手动开启；离屏和标签页隐藏时暂停。WebGL不可用或第三方脚本无法加载时，Canvas标题和ZH图形仍可显示。作品区保留暗色卡片、移动照片带及可展开详情。“关于我”介绍已改写为更自然的个人表达。
+
+`/resume`（也支持 `/resume/` 和 `/resume.html`）为简历作品精简版，保留个人介绍、两个真实项目、两项兴趣记录和微信联系。简历版沿用宇宙背景。用户选定的第二版动漫形象保存为 `site/assets/zh-anime.png`。
+
+游戏截图顶部24px窗口标题栏通过CSS展示裁剪，原始PNG字节不变，放大预览保持一致。平台四张原始PNG均可点击放大。游戏当前为局域网版本，本站展示画面；游戏本体联机服务未部署到本站。
+
+## 原视频
+
+七段MP4使用独立R2对象存储，网站通过同一域名提供Range播放和原视频下载。不重编码、不降分辨率、不压缩音视频。团团与小猫的视频仅修改90°显示方向，逐流SHA256与原文件一致。部分HEVC视频需要设备支持，不支持时可下载原视频。
+
+导入通过临时Sites runtime secret授权，令牌不写入源码、Git或备份。导入结束后移除该密钥。补传过程检查文件大小、每块SHA256和MD5，并校验最终对象大小、SHA元数据及multipart ETag。`worker/concert-upload-plan.json`只含文件校验和与分块会话信息，不含授权密钥。
+
+## 构建
+
+`site`为网页源文件；`worker/index.mjs`提供静态页面和原视频资源；`worker/video-files.json`记录原始视频大小。
+
+```text
+node scripts/build-worker.mjs
+node scripts/test-worker.mjs
+```
+
+构建输出为 `dist/server/index.js` 与 `dist/.openai/hosting.json`，通过构建脚本生成，不进入源码 Git。七段个人原视频保存在 R2，不包含在网站部署包或源码备份中，支持 HEAD、ETag 与 Range 请求。网页静态视频接口也支持范围请求，并限制每次解码所需字节。
+
+所有项目文件、素材、备份、缓存和发布包位于D:\个站。`.sites-runtime`不进入Git，包含本地预览、浏览器配置、素材处理记录及发布记录；不得上传该目录作为公开源码。网站便签仅保存在当前浏览器的localStorage。
