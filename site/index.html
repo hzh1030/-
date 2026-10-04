@@ -132,21 +132,21 @@
 <link rel="stylesheet" href="react-bits-gallery.css?v=15">
 <script type="module" src="flex-carousel.js?v=16"></script>
 <script type="module" src="glow-cursor.js?v=15"></script>
-<link rel="stylesheet" href="liquid-music.css?v=15">
-<script type="module" src="liquid-music.js?v=15"></script>
+<link rel="stylesheet" href="liquid-music.css?v=18">
+<script type="module" src="liquid-music.js?v=18"></script>
 </head>
 <body class="ocean-page glass-page ocean-nav-deep">
   <div id="glow-cursor-layer" aria-hidden="true"><canvas id="glow-cursor-canvas"></canvas></div>
 
   <button class="music-launcher" id="music-launcher" type="button" aria-controls="liquid-music" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 18V5l11-2v13M9 7l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2.5"/><ellipse cx="17" cy="16" rx="3" ry="2.5"/></svg><span>听薛之谦</span></button>
   <aside class="liquid-music" id="liquid-music" hidden aria-labelledby="music-player-title">
-    <div class="music-heading"><div><p>LIQUID SOUND / QQ MUSIC</p><h2 id="music-player-title">留一点时间，听歌。</h2></div><button class="music-close" type="button" aria-label="关闭音乐播放器并停止播放">×</button></div>
+    <div class="music-heading"><div><p>LIQUID SOUND / QQ MUSIC</p><h2 id="music-player-title">留一点时间，听歌。</h2></div><button class="music-close" type="button" aria-label="缩小音乐播放器，继续播放" title="缩小，音乐继续播放">−</button></div>
     <div class="music-current"><img class="music-cover" alt="专辑封面" width="56" height="56"><div><strong class="music-current-title">演员</strong><span class="music-current-album">薛之谦</span></div></div>
     <div class="music-embed"></div>
     <div class="music-transport"><button type="button" data-music-step="-1" aria-label="上一首">← 上一首</button><button class="music-stop" type="button">停止</button><button type="button" data-music-step="1" aria-label="下一首">下一首 →</button><a class="music-official-song" href="https://y.qq.com/n/ryqq/songDetail/001Qu4I30eVFYb" target="_blank" rel="noopener noreferrer">QQ音乐 ↗</a></div>
     <label class="music-search-label" for="music-search"><span>搜索薛之谦的歌曲或专辑</span><input id="music-search" type="search" placeholder="搜索歌名 / 专辑" autocomplete="off"></label>
     <p class="music-catalog-count"></p><div class="music-song-list" aria-label="薛之谦QQ音乐曲库"></div>
-    <p class="music-footnote">点击上方封面的播放按钮，拖动进度条即可跳转。部分曲目需登录或会员，如未能播放，可在QQ音乐中打开。</p><div class="music-live" role="status" aria-live="polite"></div>
+    <p class="music-footnote">缩小后音乐继续，点击「停止」结束播放。进入网站会尝试播放；未自动出声时请点击播放。部分曲目需登录或会员，可在QQ音乐中打开。</p><div class="music-live" role="status" aria-live="polite"></div>
   </aside>
   <a class="skip-link" href="#main">跳到正文</a>
   <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true">✳</span><span>背景动效</span><span class="motion-state" aria-hidden="true">关</span></button>
